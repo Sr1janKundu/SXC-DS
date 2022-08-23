@@ -18,6 +18,6 @@ def bin_search(arr, temp):
 
 if __name__ == '__main__':
     arr = [5, 9, 10, 17, 23, 31, 36, 37, 99]   # sorting of the list is to be incorporated later on
-    temp = 10                                  # take both these two as user-input after the aforesaid incorporation
+    temp = 10                                  # take both these two as user-input after the aforesaid incorporation.
 
     bin_search(arr, temp)
