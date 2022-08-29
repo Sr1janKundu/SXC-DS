@@ -1,10 +1,13 @@
 ---
-title: "Priblem set-1 (DB)"
+title: <b>Problem Set - 1 (DB)</b>
 author: "Srijan Kundu"
-date: "2022-08-29"
-output: "html_document"
+date: "Aug 29, 2022"
+output: "pdf_document"
 ---
 
+```{r load-packages}
+library(pracma)
+```
 
 ## Consider the vectors a = (1, 2, 3, 4, 5, 6) and b = (10, -4, 6, 0, 5, 1). Do the following:
 
@@ -12,113 +15,154 @@ output: "html_document"
 a = c(1,2,3,4,5,6)
 b = c(10,-4,6,0,5,1)
 ```
+
 ### Lengths of vectors a and b:
+
 ```{r}
-length(a)
-length(b)
+sqrt(sum(a*a))
+sqrt(sum(b*b))
 ```
 
-### Access 4 th element of the vector b:
+### Access $4^{th}$ element of the vector b:
+
 ```{r}
 b[4]
 ```
-### Access 2 nd and 5 th element of vector b:
+
+### Access $2^{nd}$ and $5^{th}$ th element of vector b:
+
 ```{r}
 b[2]
 b[5]
 ```
+
 ### Which elements of b are greater than 2?
+
 ```{r}
 which(b>2)
 ```
+
 ### Enlist the values of b greater than 2.
+
 ```{r}
 b[b>2]
 ```
+
 ### Remove the first element of the vector b.
+
 ```{r}
 c = b[-1]
 c
 ```
+
 ### Find maximum and minimum element of b.
+
 ```{r}
 max(b)
 min(b)
 ```
+
 ### Sum of the elements of b.
+
 ```{r}
 sum(b)
 ```
-### number of elements in b which are less than 3
+
+### Number of elements in b which are less than 3
+
 ```{r}
 length(b[b<3])
 ```
 
-### sum of the elements in b that are less than 3
+### Sum of the elements in b that are less than 3
+
 ```{r}
 sum(b[b<3])
 ```
 
-### mean of the elements of b
+### Mean of the elements of b
+
 ```{r}
 mean(b)
 ```
-### median of the elements of b
+
+### Median of the elements of b
+
 ```{r}
 median(b)
 ```
 
-### range of the elements of b
+### Range of the elements of b
+
 ```{r}
 range(b)
 ```
-### variance of the elements of b
+
+### Variance of the elements of b
+
 ```{r}
 var(b)
 ```
-### correlation between vectors a and b
+
+### Correlation between vectors a and b
+
 ```{r}
 cor(a,b)
 ```
-### sort the elements of b
+
+### Sort the elements of b
+
 ```{r}
 sort(b)
 ```
 
-### find the vector containing the minimum, lower quartile, median, upper quartile, and maximum of b
+### Find the vector containing the minimum, lower quartile, median, upper quartile, and maximum of b
+
 ```{r}
 summary(b)
 ```
-### vector containing the sum of all of the elements up to that point of b
+
+### Vector containing the sum of all of the elements up to that point of b
+
 ```{r}
 cumsum(b)
 ```
 
-### vector containing the product of all of the elements up to that point of b
+### Vector containing the product of all of the elements up to that point of b
+
 ```{r}
 cumprod(b)
 ```
-### vector of non-decreasing numbers which are the cumulative maxima of the values in b up to that point
+
+### Vector of non-decreasing numbers which are the cumulative maxima of the values in b up to that point
+
 ```{r}
 cummax(b)
 ```
-### vector of non-increasing numbers which are the cumulative minima of the values in b up to that point
+
+### Vector of non-increasing numbers which are the cumulative minima of the values in b up to that point
+
 ```{r}
 cummin(b)
 ```
+
 ### a+b
+
 ```{r}
 a + b
 ```
+
 ### a-b
+
 ```{r}
 a-b
 ```
-### a.b
-```{r}
-a*b
-```
 
+### a.b
+
+```{r}
+dot(a, b)
+```
 
 ## 2. x=(0.9982, 0.9820, 0.2020, 0.6599, 0.9345, 0.1883), y=(0.5182, 0.3012, 0.4167, 0.5364, 0.0787, 0.4995), z=(0.2659, 0.1327, 0.4406, 0.6512, 0.0318, 0.3693).
 
@@ -129,17 +173,21 @@ z = c(0.2659,0.1237,0.4406,0.5412,0.0318,0.3693)
 ```
 
 ### Find parallel minima and maxima using pmin and pmax functions.
+
 ```{r}
 pmin(x, y, z)
 pmax(x, y, z)
 ```
+
 ### Find sum of the three largest values in x.
+
 ```{r}
 x_1 <- sort(x, decreasing = TRUE)
 sum(x_1[1:3])
 ```
 
 ### Find the angle between x and y.
+
 ```{r}
 theta <- acos( sum(x*y) / ( sqrt(sum(x * x)) * sqrt(sum(y * y)) ) )
 angle = theta*180/pi
@@ -147,12 +195,14 @@ angle
 ```
 
 ### Euclidean distance between x and y.
+
 ```{r}
 euclidean_dist <- function(x, y) sqrt(sum((x - y)^2))
 euclidean_dist(x, y)
 ```
 
 ### Calculate the dot product between x and y.
+
 ```{r}
 dot(x, y)
 ```
