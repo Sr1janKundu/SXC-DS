@@ -1,0 +1,38 @@
+---
+title: "August 29_MD-SD"
+author: "Srijan Kundu"
+date: "2022-08-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+```
+
+
+```{r}
+getwd()
+```
+
+```{r}
+data1 = read.csv("Studentdata_1.csv")
+head(data1)
+dim(data1)
+```
+
+
+```{r}
+summary(data1$Average_time)
+IQR(data1$Average_time)
+```
+
+
+
+
+```{r}
+ggplot(data = data1, aes(x = Average_time))+geom_histogram(binwidth = 30)
+```
