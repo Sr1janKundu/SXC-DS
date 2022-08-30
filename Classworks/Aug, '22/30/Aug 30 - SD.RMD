@@ -1,0 +1,175 @@
+---
+title: "SD - Aug 30"
+author: "Srijan Kundu"
+date: "2022-08-30"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question: Draw 50 random sample of size 25 each from the following distributions:
+
+### (i) Rectangular(0, 1)
+
+### (ii) Nomal(0, 1)
+
+### (iii) Cauchy(0, 1)
+
+## Compute the statistics below for each sample:
+
+### (i) $\bar{X_n}$, (ii) $X_{(1)}$, (iii) $X_{(n)}$, (iv) $Med(X)$
+
+
+```{r}
+set.seed(30)
+library(ggplot2)
+```
+
+## The Rectangular (0, 1) distribution:
+### Drawing 50 random samples:
+
+```{r}
+samp1 <- replicate(50, runif(25, 0, 1))
+samp1
+```
+### Calculating mean for the above sample:
+
+```{r}
+samp1_mean <- replicate(50, mean(runif(25, 0, 1)))
+samp1_mean
+```
+### Calculating minimum for each of the above samples:
+
+```{r}
+samp1_min <- replicate(50, min(runif(25, 0, 1)))
+samp1_min
+```
+
+### Calculating maximum for each of the above samples:
+
+```{r}
+samp1_max <- replicate(50, max(runif(25, 0, 1)))
+samp1_max
+```
+
+### Calculating median for each of the above samples:
+
+```{r}
+samp1_mid <- replicate(50, median(runif(25, 0, 1)))
+samp1_mid
+```
+
+### Plotting these 4 statistics:
+
+```{r}
+ggplot(NULL,aes(1:50))+geom_line(aes(y =samp1_mean), color = "black") +
+     geom_line(aes(y =samp1_max), color = "red") +
+    geom_line(aes(y = samp1_mid), color = "green") +
+    geom_line(aes(y = samp1_min), color = "blue") + geom_line(aes(y = 0.5), color = "purple")
+```
+
+
+%------------------------------------------------------------------%
+
+## The Normal (0, 1) distribution:
+### Drawing 50 random samples:
+
+```{r}
+samp2 <- replicate(50, rnorm(25, 0, 1))
+samp2
+```
+### Calculating mean for the above sample:
+
+```{r}
+samp2_mean <- replicate(50, mean(rnorm(25, 0, 1)))
+samp2_mean
+```
+### Calculating minimum for each of the above samples:
+
+```{r}
+samp2_min <- replicate(50, min(rnorm(25, 0, 1)))
+samp2_min
+```
+
+### Calculating maximum for each of the above samples:
+
+```{r}
+samp2_max <- replicate(50, max(rnorm(25, 0, 1)))
+samp2_max
+```
+
+### Calculating median for each of the above samples:
+
+```{r}
+samp2_mid <- replicate(50, median(rnorm(25, 0, 1)))
+samp2_mid
+```
+
+### Plotting these 4 statistics:
+
+
+```{r}
+ggplot(NULL,aes(1:50))+geom_line(aes(y =samp2_mean), color = "black") +
+     geom_line(aes(y =samp2_max), color = "red") +
+    geom_line(aes(y = samp2_mid), color = "green") +
+    geom_line(aes(y = samp2_min), color = "blue") + geom_line(aes(y = 0.5), color = "purple")
+```
+
+%-------------------------------------------------------------------%
+
+## The Cauchy (0, 1) distribution:
+### Drawing 50 random samples:
+
+```{r}
+samp3 <- replicate(50, rcauchy(25, 0, 1))
+samp3
+```
+### Calculating mean for the above sample:
+
+```{r}
+samp3_mean <- replicate(50, mean(rcauchy(25, 0, 1)))
+samp3_mean
+```
+### Calculating minimum for each of the above samples:
+
+```{r}
+samp3_min <- replicate(50, min(rcauchy(25, 0, 1)))
+samp3_min
+```
+
+### Calculating maximum for each of the above samples:
+
+```{r}
+samp3_max <- replicate(50, max(rcauchy(25, 0, 1)))
+samp3_max
+```
+
+### Calculating median for each of the above samples:
+
+```{r}
+samp3_mid <- replicate(50, median(rcauchy(25, 0, 1)))
+samp3_mid
+```
+
+### Plotting these 4 statistics:
+
+```{r}
+ggplot(NULL,aes(1:50))+geom_line(aes(y =samp3_mean), color = "black") +
+     geom_line(aes(y =samp3_max), color = "red") +
+    geom_line(aes(y = samp3_mid), color = "green") +
+    geom_line(aes(y = samp3_min), color = "blue") + geom_line(aes(y = 0.5), color = "purple")
+```
+
+```{r}
+#A = matrix(replicate(50, rnorm(25, 0, 1)))
+#A1 = apply(A, 2, mean)
+#A2 = apply(A, 2, median)
+#A3 = apply(A, 2, min)
+#A4 = apply(A, 2, max)
+#matplot(1:50, cbind(A1, A2, A3, A4), type = "l", col = 1:4, x = "sample number", y = "Statistics")
+#alt+ctrl+i for a R block
+```
+
+
