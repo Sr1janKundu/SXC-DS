@@ -71,7 +71,6 @@ ggplot(NULL,aes(1:50))+geom_line(aes(y =samp1_mean), color = "black") +
 ```
 
 
-%------------------------------------------------------------------%
 
 ## The Normal (0, 1) distribution:
 ### Drawing 50 random samples:
@@ -117,7 +116,7 @@ ggplot(NULL,aes(1:50))+geom_line(aes(y =samp2_mean), color = "black") +
     geom_line(aes(y = samp2_min), color = "blue") + geom_line(aes(y = 0.5), color = "purple")
 ```
 
-%-------------------------------------------------------------------%
+
 
 ## The Cauchy (0, 1) distribution:
 ### Drawing 50 random samples:
