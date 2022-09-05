@@ -236,7 +236,7 @@ hist(samp4_mean)
 ```
 
 
-Question: Taking 50 random samples from N(0, 1) of sizes: (a) 25, (b) 200, (c) 500, (d) 1000, (e) 10000, obtain the histogram of the frequescy distribution of the sample mean. Comment on your findings.
+Question: Taking 50 random samples from N(0, 1) of sizes: (a) 25, (b) 200, (c) 500, (d) 1000, (e) 10000, obtain the histogram of the frequency distribution of the sample mean. Comment on your findings.
 
 Submit to: sdg.stat@sxccal.edu
 

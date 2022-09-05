@@ -1,0 +1,50 @@
+---
+title: "Untitled"
+author: "Srijan Kundu"
+date: "2022-09-05"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading packages
+
+```{r}
+library("ggplot2")
+library("ggpubr")
+```
+
+```{r}
+#set.seed(159)
+```
+
+
+## Loading data
+
+```{r}
+samp25_mean <- replicate(50, mean(rnorm(25, 0, 1)))
+samp200_mean <- replicate(50, mean(rnorm(200, 0, 1)))
+samp500_mean <- replicate(50, mean(rnorm(500, 0, 1)))
+samp1000_mean <- replicate(50, mean(rnorm(1000, 0, 1)))
+samp10000_mean <- replicate(50, mean(rnorm(10000, 0, 1)))
+```
+
+## Loading plots
+
+```{r}
+p1 <- ggplot(NULL, aes(x = samp25_mean, ..density..)) + geom_histogram(binwidth = 0.05) + xlim(c(-.5, .5)) +  xlab("size = 25")
+p2 <- ggplot(NULL, aes(x = samp200_mean, ..density..)) + geom_histogram(binwidth = 0.035) + xlim(c(-.35,.35)) +  xlab("size = 200")
+p3 <- ggplot(NULL, aes(x = samp500_mean, ..density..)) + geom_histogram(binwidth = 0.025) + xlim(c(-0.25, 0.25)) + xlab("size = 500")
+p4 <- ggplot(NULL, aes(x = samp1000_mean, ..density..)) + geom_histogram(binwidth = 0.015) + xlim(c(-.1, .1)) + xlab("size = 1000")
+p5 <- ggplot(NULL, aes(x = samp10000_mean, ..density..)) + geom_histogram(binwidth = 0.005) + xlim(c(-.05, .05)) +  xlab("size = 10000")
+```
+
+## Combining plots
+
+```{r}
+ggarrange(p1, p2, p3, p4, p5)
+```
+
+
