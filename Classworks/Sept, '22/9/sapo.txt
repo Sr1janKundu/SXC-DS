@@ -1,0 +1,256 @@
+create table Department(Did varchar(10) PRIMARY KEY,Dname varchar(30) NOT NULL CHECK(Dname IN ('Development','Analytics','Res and Dev','Tech Support')),Dloc varchar(40) NOT NULL,DateofSetup DATE NOT NULL);
+desc department;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DID                                       NOT NULL VARCHAR2(10)
+ DNAME                                     NOT NULL VARCHAR2(30)
+ DLOC                                      NOT NULL VARCHAR2(40)
+ DATEOFSETUP                               NOT NULL DATE
+insert into Department values('D1','Analytics','Kolkata','23-JUN-2020');
+insert into Department values('D2','Analytics','Chennai','22-JUN-2020');
+insert into Department values('D3','Development','Bengaluru','19-DEC-2020');
+insert into Department values('D4','Res and Dev','Mumbai','15-NOV-2020');
+insert into Department values('D5','Tech Support','Silchar','01-DEC-2021');
+insert into Department values('D6','Tech Support','Noida','03-APR-2021');
+create table Employee(Eid varchar(10) PRIMARY KEY,Ename varchar(50) NOT NULL, Salary number(8) CHECK(Salary>=25000), DOB DATE NOT NULL,Did varchar(5) references Department(Did),SuperNum varchar(10) references Employee(Eid));
+desc employee;
+Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL VARCHAR2(10)
+ ENAME                                     NOT NULL VARCHAR2(50)
+ SALARY                                             NUMBER(8)
+ DOB                                       NOT NULL DATE
+ DID                                                VARCHAR2(5)
+ SUPERNUM                                           VARCHAR2(10)
+insert into Employee(Eid,Ename,Salary,DOB,Did) values('E1','ABC',25000,'23-JUN-1991','D1');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E2','DEF',52000,'04-JAN-1993','D1','E1');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E3','GHI',45000,'07-SEP-1991','D6','E1');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E4','JKL',65000,'01-APR-1992','D4','E1');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E5','JKL',62000,'23-AUG-1995','D4','E1');
+insert into Employee(Eid,Ename,Salary,DOB,Did) values('E6','ABC',35000,'03-JUN-1990','D2');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E7','PQR',52000,'13-FEB-1996','D3','E6');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E8','PQR',45000,'12-NOV-1993','D4','E6');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E9','XYZ',56000,'10-JUN-1993','D1','E6');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E10','DEF',2000,'30-JUL-1994','D5','E6');
+
+/* E10 has salary less than 25000, hence shows error and entry not recorded */
+
+/* 1. Verify Schema and instance of both tables ---- Verify manually */
+
+/* 2. Display the locations of Analytics department */
+
+select Dloc from department where Dname='Analytics';
+
+/* 3. List the location and date of establishment of technical support department */
+
+select Dname, Dloc, Dateofsetup from department where Dname='Tech Support';
+
+/* 4. List the departments established in 2020 */
+
+select * from department where Dateofsetup>='01-JAN-2020' and Dateofsetup <= '31-DEC-2020';
+
+/* 5. List the departments established in first quarter of 2020 */
+
+select * from department where dateofsetup >='01-JAN-2020' and dateofsetup<='30-APR-2020';
+
+/* List the departments established in Dec 2021 */
+select * from department where dateofsetup between '01-DEC-2021' and '31-DEC-2021';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SQL> create table Department(Did varchar(10) PRIMARY KEY,Dname varchar(30) NOT NULL CHECK(Dname IN ('Development','Analytics','Res and Dev','Tech Support')),Dloc varchar(40) NOT NULL,DateofSetup DATE NOT NULL);
+
+Table created.
+
+SQL> desc department;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DID                                       NOT NULL VARCHAR2(10)
+ DNAME                                     NOT NULL VARCHAR2(30)
+ DLOC                                      NOT NULL VARCHAR2(40)
+ DATEOFSETUP                               NOT NULL DATE
+
+SQL> create table Employee(Eid varchar(10) PRIMARY KEY,Ename varchar(50) NOT NULL, Salary number(8) CHECK(Salary>=25000), DOB DATE NOT NULL,Did varchar(5) references Department(Did),SuperNum varchar(10) references Employee(Eid));
+
+Table created.
+
+SQL> desc employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL VARCHAR2(10)
+ ENAME                                     NOT NULL VARCHAR2(50)
+ SALARY                                             NUMBER(8)
+ DOB                                       NOT NULL DATE
+ DID                                                VARCHAR2(5)
+ SUPERNUM                                           VARCHAR2(10)
+
+SQL> insert into Department values('D1','Analytics','Kolkata','23-JUN-2020');
+
+1 row created.
+
+SQL> insert into Department values('D2','Analytics','Chennai','22-JUN-2020');
+
+1 row created.
+
+SQL> insert into Department values('D3','Development','Bengaluru','19-DEC-2020');
+
+1 row created.
+
+SQL> insert into Department values('D4','Res and Dev','Mumbai','15-NOV-2020');
+
+1 row created.
+
+SQL> insert into Department values('D5','Tech Support','Silchar','01-DEC-2021');
+
+1 row created.
+
+SQL> insert into Department values('D6','Tech Support','Noida','03-APR-2021');
+
+1 row created.
+
+SQL> select * from department;
+
+DID        DNAME
+---------- ------------------------------
+DLOC                                     DATEOFSET
+---------------------------------------- ---------
+D1         Analytics
+Kolkata                                  23-JUN-20
+
+D2         Analytics
+Chennai                                  22-JUN-20
+
+D3         Development
+Bengaluru                                19-DEC-20
+
+
+DID        DNAME
+---------- ------------------------------
+DLOC                                     DATEOFSET
+---------------------------------------- ---------
+D4         Res and Dev
+Mumbai                                   15-NOV-20
+
+D5         Tech Support
+Silchar                                  01-DEC-21
+
+D6         Tech Support
+Noida                                    03-APR-21
+
+
+6 rows selected.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did) values('E1','ABC',25000,'23-JUN-1991','D1');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E2','DEF',52000,'04-JAN-1993','D1','E1');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E3','GHI',45000,'07-SEP-1991','D6','E1');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E4','JKL',65000,'01-APR-1992','D4','E1');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E5','JKL',62000,'23-AUG-1995','D4','E1');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did) values('E6','ABC',35000,'03-JUN-1990','D2');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E7','PQR',52000,'13-FEB-1996','D3','E6');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E8','PQR',45000,'12-NOV-1993','D4','E6');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E9','XYZ',56000,'10-JUN-1993','D1','E6');
+
+1 row created.
+
+SQL> insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E10','DEF', 62000,'30-JUL-1994','D5','E6');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E10','DEF',2000,'30-JUL-1994','D5','E6')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SYSTEM.SYS_C007059) violated
+
+
+SQL> /* salary of E10 is less than 25000, not possible */
+SQL> select Dloc from department where Dname='Analytics';
+
+DLOC
+----------------------------------------
+Kolkata
+Chennai
+
+SQL> select Dname, Dloc, Dateofsetup from department where Dname='Tech Support';
+
+DNAME                          DLOC
+------------------------------ ----------------------------------------
+DATEOFSET
+---------
+Tech Support                   Silchar
+01-DEC-21
+
+Tech Support                   Noida
+03-APR-21
+
+
+SQL> select * from department where Dateofsetup>='01-JAN-2020' and Dateofsetup <= '31-DEC-2020';
+
+DID        DNAME
+---------- ------------------------------
+DLOC                                     DATEOFSET
+---------------------------------------- ---------
+D1         Analytics
+Kolkata                                  23-JUN-20
+
+D2         Analytics
+Chennai                                  22-JUN-20
+
+D3         Development
+Bengaluru                                19-DEC-20
+
+
+DID        DNAME
+---------- ------------------------------
+DLOC                                     DATEOFSET
+---------------------------------------- ---------
+D4         Res and Dev
+Mumbai                                   15-NOV-20
+
+
+SQL> select * from department where dateofsetup >='01-JAN-2020' and dateofsetup<='30-APR-2020';
+
+no rows selected
+
+SQL> select * from department where dateofsetup between '01-DEC-2021' and '31-DEC-2021';
+
+DID        DNAME
+---------- ------------------------------
+DLOC                                     DATEOFSET
+---------------------------------------- ---------
+D5         Tech Support
+Silchar                                  01-DEC-21
+
+
+SQL>

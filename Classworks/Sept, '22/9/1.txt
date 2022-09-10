@@ -1,0 +1,86 @@
+
+
+SQL> create table Department(Did varchar(10) Primary key, Dname varchar(30) Not null check(Dname in('Development', 'Analytics', 'R'||chr(38)||'D', 'Tech Support')), Dloc varchar(40) Not null, DateOfSetup DATE NOT NULL);
+
+[`SQL> set define off`; to turn off the "Enter value for d:" messege]
+
+SQL> create table Employee(Eid varchar(10), Ename varchar(50) NOT NULL, Salary number(8) DEFAULT 30000, DOB date NOT NULL, Did varchar(5) references Department(Did), SuperNum varchar(10) references Employee(Eid), Primary Key(Eid));
+
+SQL> insert into Department values('D1', 'Analytics', 'Kolkata', '23-JUN-2020');
+SQL> insert into Department values('D2', 'Analytics', 'Chennai', '22-JUN-2020');
+SQL> insert into Department values('D3', 'Development', 'Bengaluru', '19-DEC-2020');
+SQL> insert into Department values('D4', 'R'||chr(38)||'D', 'Mumbai', '23-JUN-2020');
+SQL> insert into Department values('D5', 'Tech Support', 'Silchar', '01-DEC-2021');
+SQL> insert into Department values('D6', 'Tech Support', 'Noida', '03-APR-2021');
+
+
+
+SQL>
+insert into Employee(Eid,Ename,Salary,DOB,Did) values('E1','ABC',25000,'23-JUN-1991','D1');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E2','DEF',52000,'04-JAN-1993','D1','E1');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E3','GHI',45000,'07-SEP-1991','D6','E1');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E4','JKL',65000,'01-APR-1992','D4','E1');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E5','JKL',62000,'23-AUG-1995','D4','E1');
+insert into Employee(Eid,Ename,Salary,DOB,Did) values('E6','ABC',35000,'03-JUN-1990','D2');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E7','PQR',52000,'13-FEB-1996','D3','E6');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E8','PQR',45000,'12-NOV-1993','D4','E6');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E9','XYZ',56000,'10-JUN-1993','D1','E6');
+insert into Employee(Eid,Ename,Salary,DOB,Did,SuperNum) values('E10','DEF', 62000,'30-JUL-1994','D5','E6');
+
+### Verification of schema nd instance of both tables:
+
+SQL> 
+desc employee;
+desc department;
+select * from department;
+select * from employee;
+
+### Find names of department being run
+
+SQL>
+select distinct Dname from department;
+
+
+### Find details of supervisors.
+
+SQL> 
+select * from employee where SuperNum IS NULL;
+
+### Find details of employees who aare not supervisors.
+
+SQL>
+select * from employee where SuperNum IS NOT NULL;
+
+### Display the name and annual salary of an employee.
+
+SQL>
+select Ename, salary*12 from employee;
+
+#### temprarily rename a column, we use as command
+SQL>
+select Ename, salary*12 as "Annual Salary" from employee;
+
+### Increase the salary of supervisors by 30%
+SQL>
+update employee set salary = 1.2*salary where SuperNum IS NULL;
+
+### Add a column called commission tothe Employee table having float data type
+SQL>
+alter table employee add commission number(8,2);
+#### To verify:
+desc employee;
+
+### Assign a starting commission of 1000 to all employees who are not supervisors
+SQL>
+update employee set commission = 1000 where SuperNum IS NOT NULL;
+
+### Add an email column.
+SQL> alter table department add email char(255);
+
+#### 'char' has fixed characters, leading to wastage of space
+
+### Modify email datatype to varchar(255).
+SQL> 
+alter table department modify email varchar(255);
+
+

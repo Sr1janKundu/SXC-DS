@@ -1,0 +1,54 @@
+## Problem 1:
+
+1. clear screen
+2. create table marks (roll number(3) primary key, name varchar(20) not null, p1 number(3), p2 number(3), p3 number(3));
+3. desc marks
+4. insert into marks values(1, 'Sanjay Singhania', 40, 30, 40);
+5. insert into marks values(2, 'Aditya Agarbal', 50, 40, 40);
+6. insert into marks values(3, 'Annie Bhattacharya', 70, 60, 60);
+7. insert into marks values(4, 'Somen Saha', 55, 60, 50);
+8. select * from marks;
+9. alter table marks add total number(3);
+10. desc marks
+11. alter table marks add average number(5, 1);
+12. alter table marks add division varchar(5);
+13. select * from marks;
+14. update marks set total = p1 + p2 where p1 >= p3 and p2 >= p3;
+15. update marks set total = p2 + p3 where p1 >= p3 and p3 >= p1;
+16. update marks set average=total/2;
+17. update marks set div = 'First' where average >= 60;
+18. update marks set div = '2nd' where average >= 50 and average<60;
+19. update marks set div = 'Fail' where average < 40;
+20. select * from marks order by average;
+21. select * from marks order by average desc;
+22. select avg(total) from marks;
+23. select max(total) from marks;
+24. select min(total) from marks;
+25. select median(total) from marks;
+
+## Problem 2
+
+Copy table structure of 'marks' to a new table say 'mymarks'
+
+1. clear screen 
+2. create table mymarks as (select * from marks where 1 = 2);
+3. select * from mymarks;
+
+## Problem 3
+
+Drop mymarks1
+
+1. drop table mymarks;
+2. desc mymarks;
+
+## Problem 4
+
+Create a table salary
+- ecode varchar(5) primary key
+- basic number(5)
+Add 4-5 records.
+Add following fields:
+	- da number(6,1) da = 30% of basic
+	- hra number(6,1) hra = 15% of basic
+	- gross number(6,1) gross = basic + da + hra
+	- net number(6,1) net = gross - pf

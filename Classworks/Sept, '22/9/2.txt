@@ -1,0 +1,52 @@
+## Problem 1:
+Create a table called as table3 which contains the following fields:
+	1. eid varchar(5) primary key
+	2. name varchar(20) not null
+	3. basic number(6)
+	4. grade number(1): Grade = 1, 2, 3
+	5. year_of_service number(2) 
+Add 5~10 record in field 1-5.
+After that, alter the table to add following columns:
+	6. da number(8,1): da=30% of Basic
+	7. hra number(8,1): hra=15% of basic subject to a maximum of 2000
+	8. food_allowance number(6,1): food_allowance=200 of basic for grade=3
+	9. gross number(8,1): gross=basic+da+food_allowance
+	10. pf number(8,1): pf=10% of (basic+da) for employees with year_of_service >= 2
+	11. net number(8,1): net=gross-pf  
+## Answer:
+
+```{sql}
+
+create table table3(Eid varchar(5) primary key, name varchar(20) not null, basic number(6), grade number(1), year_of_service number(2));
+
+insert into table3 values('E1', 'AB', '300000', 1, 10);
+insert into table3 values('E2', 'CD', '250000', 1, 7);
+insert into table3 values('E3', 'EF', '200000', 1, 5);
+insert into table3 values('E4', 'GH', '100000', 2, 4);
+insert into table3 values('E5', 'IJ', '100000', 2, 3);
+insert into table3 values('E6', 'KL', '70000', 3, 6);
+insert into table3 values('E7', 'MN', '50000', 3, 3);
+
+alter table table3 add da number(8,1);
+alter table table3 add hra number(8,1);
+alter table table3 add food_allowance number(6,1);
+alter table table3 add gross number(8,1);
+alter table table3 add pf number(8,1);
+alter table table3 add net number(8,1);
+
+update table3 set da = 0.3*basic;
+update table3 set hra = 0.15*basic;
+
+update table3 set hra = 2000 where hra > 2000;
+
+update table3 set food_allowance = 200 where grade = 3;
+update table3 set food_allowance = 0 where grade != 3;
+
+
+update table3 set gross = basic+da+food_allowance;
+update table3 set pf = 0.1*(basic+da) where year_of_service >= 2;
+update table3 set pf = 0 where year_of_service < 2;
+update table3 set net = gross - pf;
+
+```
+
