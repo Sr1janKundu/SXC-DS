@@ -1,0 +1,106 @@
+---
+title: "DB_Sept-21_1"
+author: "Srijan Kundu"
+date: "2022-09-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80),tidy=TRUE)
+```
+
+```{r}
+library(ISLR)
+```
+
+
+
+## Question 1:
+### (i)
+```{r}
+A11 = diag(10)
+A11
+```
+### (ii)
+```{r}
+A12 = matrix(0, nrow = 4, ncol = 3)
+A12
+```
+### (iii)
+```{r}
+A13 = matrix(c(1:18), nrow = 3, byrow = TRUE)
+A13
+```
+## Question 2:
+```{r}
+data(Smarket)
+```
+### (a)
+```{r}
+dim(Smarket)
+```
+### (b)
+```{r}
+Smarket[2, ]
+```
+### (c)
+```{r}
+head(data.frame(Smarket$Lag3))
+```
+### (d)
+```{r}
+A21 = matrix(c(Smarket[3, ], Smarket[4, ], Smarket[7, ], Smarket[9, ], Smarket[10, ]), nrow = 5, byrow = T)
+A21
+A22 = as.matrix(Smarket[c(3,4,7,9,10), ])
+A22
+
+```
+
+## Question 3:
+
+```{r}
+V1 = rpois(16, 3)
+V1
+```
+### (a)
+```{r}
+A31 = matrix(V1, nrow = 4, ncol = 4, byrow = TRUE)
+A31
+```
+### (b)
+```{r}
+b1 = matrix(c(1,2,0,3), nrow = 4, ncol = 1, byrow = T)
+b1
+b2 = c(1,2,0,3)
+A31*b2
+
+A31%*%b1
+```
+
+The first method using `*` does row-by-row scalar multiplication of a matrix and a vector; whereas in the second method, `%*%` does proper matrix multiplication.
+
+### (c)
+```{r}
+I = diag(4)
+A31*I
+A31%*%I
+```
+
+
+### (d)
+```{r}
+solve(A31)
+```
+
+
+
+
+
+
+
+
+
+
+
+

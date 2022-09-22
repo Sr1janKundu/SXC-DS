@@ -1,0 +1,290 @@
+---
+title: "SC-MD_Sept-19"
+author: "Srijan Kundu"
+date: "2022-09-19"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(matlib)
+```
+
+
+## Dataframe
+A dataframe is a collection of vectors (may be of similar or different nature), but of equal length.
+
+```{r cleaning enviorenment}
+rm(list=ls())
+```
+Define some variables:
+```{r}
+ht = c(1.53,1.62,1.49,1.68,1.55,1.79,1.64)
+wt = c(45,82,42,55,41,72,68)
+gn = c("F", "F", "M", "M", "F", "M", "M")
+```
+Storing the above data in a single data-structure.
+```{r}
+data = data.frame(ht, wt, gn)
+is.data.frame(data)
+typeof(data)
+```
+```{r}
+summary(data)
+```
+Data of any variable can be extracted using the accessor operator, using the `$` sign.
+```{r}
+data$ht
+data$gn
+```
+To obtain the data on any particular variable for any particular unit, we run `data[unit_number, variable_number]`
+
+```{r}
+data[1, ]
+data$ht[1]
+data[3, 3]
+data[, 3]
+```
+Obtain the data for all persons who satisfy the criteria: wt>65
+```{r}
+data$wt>65
+data[data$wt>65, ]
+```
+Obtain data for all people who satisfy the criteria weight > 60 and height > 1.64.
+```{r}
+data[data$wt>60 & data$ht > 1.64, ]
+```
+```{r}
+data[data$wt>60 | data$ht > 1.64, ]
+```
+
+Obtain the data for males.
+```{r}
+data[data$gn == "M", ]
+```
+Obtain the data on height for people with weight > 65.
+```{r}
+data[data$wt>65, 1]
+```
+The function `str` is very useful for finding more about the structure of a dataframe.
+```{r}
+str(data)
+```
+```{r}
+names(data)
+```
+Sort the datafame wrt height.
+```{r}
+order(data$ht)
+data[order(data$ht), ]
+```
+The function `order` takes a vector as input, and returns the vector of indices that sorts out the input order.
+Calculate the mean of height from this dataframe.
+```{r}
+mean(data$ht)
+```
+To apply a function on each and every variable of a dataframe, we use the function `sapply(data, function)`.
+```{r}
+sapply(data, mean)
+```
+```{r}
+sapply(data$wt, sum)
+```
+Take a dataframe with 5 individuals with marks:
+Stat: 92, 87, 55, 84, 90
+Math: 87, 65, 32, 99, 47
+```{r}
+stat = c(92, 87, 55, 84, 90)
+math = c(87, 65, 32, 99, 47)
+data1 = data.frame(stat, math)
+data1
+```
+Obtain mean, variance and sum.
+```{r}
+sapply(data1, sum)
+sapply(data1, var)
+sapply(data1, mean)
+```
+
+```{r}
+summary(data1)
+```
+## Matrix
+
+```{r}
+A = matrix(c(1,4,7,2,5,8,3,6,9), nrow = 3, ncol = 3, byrow = T)
+A
+```
+```{r package-matlib}
+echelon(A, verbose = T, frac = T)
+```
+In matrix, to extract the `(i,j)th` element, we use `A[i][j]`.
+```{r}
+A[1, 3]
+```
+```{r}
+A[, c(1,3)]
+A[, -2]
+```
+```{r}
+A[-2, ]
+```
+Obtain the mean of the first row.
+```{r}
+mean(A[1, ])
+```
+```{r margin_is_1_for_rows,_2_for_columns}
+apply(A, 1, mean)
+apply(A, 2, mean)
+```
+`sapply` is to be applied on dataframe; `apply` is to be applied on array.
+
+Storing the matrix in a dataframe:
+```{r}
+M = data.frame(A)
+is.data.frame(M)
+is.data.frame(A)
+```
+
+
+```{r}
+M = as.matrix(A)
+M
+```
+```{r}
+B = matrix(c(2,3,1,3,2,6,7,9,0), nrow = 3, byrow = T)
+B
+```
+Row-augmentation of two matrices can be done by using the function `rbind`, but the columns of the matrics has to be same.
+Similarly, column augmentation can be done using the function `cbind`, but the number of rows of the two matrics must be same
+
+```{r}
+rbind(A, B)
+cbind(A,B)
+```
+```{r operation_gets_applied_to_all_elements}
+A+2
+```
+
+```{r element-wise}
+A/B
+```
+Sum of all elements of a matrix:
+```{r}
+sum(A)
+```
+Make a new matrix whose (i, j)th element is the sin of the (i,j)th element of A.
+```{r}
+sin(A)
+```
+Element wise operation is possible in R.
+
+## Matrix Algebra
+Matrix addition
+```{r}
+A+B
+```
+Matrix multiplication
+```{r}
+A%*%B
+```
+Transpose of a matrix:
+```{r}
+t(A)
+```
+Determinant of a matrix:
+```{r}
+det(B)
+```
+Inverse of matrix B:
+```{r}
+solve(B)
+```
+Eigen values and eigen vecotrs:
+```{r}
+eigen(B)
+#This gives orthonormal eigen vectors
+```
+Solving a system of linear equations:
+```{r}
+b = c(1,3,5)
+solve(B, b)
+```
+
+```{r}
+A = matrix(1:4,nrow = 2)
+B = c(11, 2, 3)
+A+B
+```
+```{r}
+library(pracma)
+```
+```{r}
+R(A)
+rank(A)
+Rank(A)
+```
+```{r}
+library(Matrix)
+rankMatrix(A)
+```
+## List
+```{r}
+u = 1:5
+v = 1:3
+list1 = list(u, v)
+list1
+```
+```{r}
+list1[[1]]
+list1[[1]][2]
+```
+```{r}
+list2 = list(a = u, b = v)
+list2
+```
+Mean of first list:
+```{r}
+mean(list2[[1]])
+```
+```{r}
+lapply(list1, mean)
+```
+```{r}
+unlist(list1)
+```
+Give name to the columns:
+```{r}
+colnames(A) = c("col1", "col2")
+A
+rownames(A) = c("row1", "row2")
+colnames(A) = month.abb[1:2]
+A
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,37 @@
+---
+title: "SC-MD_Sept-19_2"
+author: "Srijan Kundu"
+date: "2022-09-19"
+output: html_document
+---
+# Working with the mpg-dataset (dataset present in ggplot2 library)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(ggplot2)
+```
+
+
+```{r}
+data(mpg)
+head(mpg)
+data(cars)
+head(cars)
+```
+```{r}
+dim(mpg)
+dim(cars)
+```
+
+```{r}
+library(nycflights13)
+data("flights")
+dim(flights)
+head(flights)
+```
+_<b>Dataframes does not contain data-types, but tibbles does.</b>_
+
+
+

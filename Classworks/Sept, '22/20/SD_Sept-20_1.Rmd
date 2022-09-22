@@ -1,0 +1,134 @@
+---
+title: "SD_Sept-20_1"
+author: "Srijan Kundu"
+date: "2022-09-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r loading library}
+library(ggplot2)
+theme_set(
+  theme_light() + theme(legend.position = "top")
+  )
+library(ggpubr)
+library(shiny)
+```
+
+
+
+
+### Generate a single observation from a $\chi^2_{(1)}$ distribution.
+<ol>
+  <li> Draw a single observation from $N(0,1)$
+  <li> Square it to get a single observation.
+</ol>
+
+```{r}
+
+```
+
+### Generate 5 independent observations from a $\chi^2_{(1)}$ distribution.
+<ol>
+  <li> Generate $5$ observations from $N(0,1)$
+  <li> Square them
+</ol>
+
+```{r}
+
+```
+### Generate a single observation from a $\chi^2_{(5)}$ distribution.
+<ol>
+  <li> Generate $5$ observations from $N(0,1)$
+  <li> Square them, then add them
+</ol>
+```{r}
+
+```
+### Generate 5 observations from a $\chi^2_{(5)}$ distribution.
+<ol>
+  <li> Generate $25$ observations from $N(0,1)$
+  <li> Square them, group them in 5 element sets, then add them.
+</ol>
+```{r}
+
+```
+### Draw 100 random samples each of size 10 from a $\chi^2_{(5)}$ distribution.
+```{r}
+
+```
+
+
+
+### Shape of $\chi^2_{(5)}$ distribution.
+```{r}
+pl1 = ggplot(data.frame(x = c(0, 100)), aes(x = x)) +
+     stat_function(fun = dchisq, args = list(df = 5)) + xlab("df = 5") + ylab("density") 
+pl2 = ggplot(data.frame(x = c(0, 100)), aes(x = x)) +
+     stat_function(fun = dchisq, args = list(df = 10)) + xlab("df = 10") + ylab("density")
+pl3 = ggplot(data.frame(x = c(0, 100)), aes(x = x)) +
+     stat_function(fun = dchisq, args = list(df = 15)) + xlab("df = 15") + ylab("density")
+pl4 = ggplot(data.frame(x = c(0, 100)), aes(x = x)) +
+     stat_function(fun = dchisq, args = list(df = 25)) + xlab("df = 25") + ylab("density")
+pl5 = ggplot(data.frame(x = c(0, 100)), aes(x = x)) +
+     stat_function(fun = dchisq, args = list(df = 50)) + xlab("df = 50") + ylab("density")
+```
+
+```{r}
+ggarrange(pl1, pl2, pl3, pl4, pl5)
+```
+
+### Comment on the nature of the limiting distribution of $\frac{Y-n}{\sqrt{2n}}$ where $Y \sim \chi^2_{(n)}$.
+```{r}
+samp1 = as.data.frame(rchisq(50, 5))
+samp11 = (samp1 - 5)/sqrt(2*5)
+
+typeof(samp11)
+sample = samp11 - 5
+sample = sample / 5
+typeof(sample)
+as.data.frame(sample)
+typeof(sample)
+names(sample) <- "samples"
+sample
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
