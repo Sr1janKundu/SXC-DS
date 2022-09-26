@@ -1,0 +1,106 @@
+---
+title: "SC-MD_Sept_26-1"
+author: "Srijan Kundu"
+date: "2022-09-26"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Working with NYC Flights Data
+
+---
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+```
+
+
+```{r}
+library(nycflights13)
+data("flights")
+dim(flights)
+head(flights)
+```
+
+# Question 1: Give us all flights departed on $1^{st}$ January.
+
+```{r}
+filter(flights, flights$month == 1, flights$day == 1)
+```
+# Question 2: Obtain all flights departed in November or December.
+```{r}
+filter(flights, flights$month == 11 | flights$month == 12)
+filter(flights, month %in% c(11, 12))
+```
+# Question 3: Flights that were not delayed by more than 2 hours both for arrival or departure.
+
+```{r}
+filter(flights, flights$dep_delay <= 120 & flights$arr_delay <= 120)
+filter(flights, !(flights$dep_delay > 120 | flights$arr_delay > 120))
+```
+# Question 4: Flights with arrival delay of 2 or more hours
+```{r}
+filter(flights, flights$arr_delay >= 120)
+```
+# Question 5: Flights that flew to Houston
+```{r}
+filter(flights, dest %in% c('IAH', 'HOU', 'EFD'))
+```
+# Question 6: Flights operated by United, American or Delta.
+```{r}
+filter(flights, carrier %in% c('UA', 'AA', 'DL'))
+```
+# Question 7: Flights that departed in summer (July, August, September)
+```{r}
+filter(flights, month %in% c(7, 8, 9))
+```
+# Question 8: Flights that arrived more than 2 hours late but did not leave late.
+```{r}
+filter(flights, flights$arr_delay > 120 & flights$dep_delay <= 0)
+```
+# Question 9: Flights that were delayed by at least an hour, but made up over 30 mins in flight.
+```{r}
+filter(flights, dep_delay >= 60,(dep_delay-arr_delay > 30))
+```
+# Question 10: Flights that departed between midnight and 6:00 am, both inclusive.
+
+```{r}
+filter(flights, dep_time >= 0000 & dep_time <= 0600)
+filter(flights, between(dep_time, 0000, 600))
+filter(flights, !between(dep_time, 0601, 2359))
+```
+# Question 11: How many flights have a missing dep_time? 
+```{r}
+count(filter(flights, is.na(dep_time)))
+```
+# Question 12: From the flight dataset, only consider the data on arrival delay, departure delay, distance and air time.
+```{r}
+select(flights, arr_delay, dep_delay, distance, air_time)
+flights = flights %>% mutate(gain = arr_delay - dep_delay)
+flights = flights %>% mutate(speed = distance/arr_time*60)
+```
+# Question 13: How can you compute hours and minutes from departure time using `transmute`?
+```{r}
+transmute(flights,
+  dep_time,
+  hour = dep_time %/% 100,
+  minute = dep_time %% 100
+)
+```
+
+
+
+> [_Click for reference_](https://rpubs.com/bjp-gu/580705)
+
+
+
+
+
+
+
+

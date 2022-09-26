@@ -1,0 +1,75 @@
+---
+title: "Practical Problem Set 3 (DB)"
+author: "Srijan Kundu"
+date: "2022-09-26"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r loading packages}
+library(matlib)
+```
+
+
+
+# Question 1
+For the matrix $M=\begin{bmatrix}1 &1 &1 &1\\1&2&3&4\\1&3&6&10\\1&4&10&20\end{bmatrix}$, find the following.
+
+  - Trace of M.
+  - Rank of M.
+  - Inverse of M.
+  - Determinant of M using the functions `Det(A)` and 
+  `cofactor(A, i, j)`.
+
+<br><br>
+```{r}
+M = matrix(c(1,1,1,1,1,2,3,4,1,3,6,10,1,4,10,20), nrow = 4, byrow = TRUE)
+M
+```
+```{r}
+tr(M)
+```
+```{r}
+R(M)
+```
+```{r}
+inv(M)
+```
+```{r}
+Det(M)
+```
+```{r}
+d = 0
+for (i in 1:4)
+{
+  d = d + M[1, i]*cofactor(M, 1, i)
+}
+d
+
+#M[1, 1]*cofactor(M, 1, 1) + M[1, 2]*cofactor(M, 1, 2) + M[1, 3]*cofactor(M, 1, 3) + M[1, 4]*cofactor(M, 1, 4)
+```
+
+
+
+
+
+# Question 2
+Apply Gram-Schmidt orthogonalization to the following sequence of vectors:
+$(1,2,0),\;(8,1,-6),\;(0,0,1)$
+<br>
+```{r}
+X = matrix(c(1,2,0,8,1,-6,0,0,1), nrow = 3, byrow = FALSE)
+X
+```
+
+
+```{r}
+GramSchmidt(X, normalize = TRUE, verbose = TRUE, tol = sqrt(.Machine$double.eps))
+```
+
+
+
+
