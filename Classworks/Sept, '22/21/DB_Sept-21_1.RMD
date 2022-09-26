@@ -1,8 +1,8 @@
 ---
-title: "DB_Sept-21_1"
+title: "Practical Problem Sheet 2 (DB)"
 author: "Srijan Kundu"
 date: "2022-09-21"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
