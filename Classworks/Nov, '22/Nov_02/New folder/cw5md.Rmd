@@ -1,0 +1,111 @@
+---
+title: "Class Work"
+author: "Sayan Das"
+date: "2022-09-27"
+output: 
+    pdf_document:
+    includes:
+        in_header: "preamble.tex"
+---
+
+### Problem 1:
+\textcolor{red}{1) Draw a random sample of size n (chosen by you) from a N2(0, 0 ,1, 1, 0) distribution}  
+\textcolor{red}{2) compute r (sample correlation coefficient)}  
+\textcolor{red}{3) define t = $\cfrac{r\sqrt{n-2}}{\sqrt{1-r^2}}$ repeat 1 to 3 for m chosen by you}   
+\textcolor{red}{plot Histogram of the frequency distribution of t}
+
+```{r}
+rm(list=ls())
+library(MASS)
+library(ggplot2)
+
+n = 1000
+m = 1000
+
+Mu = c(0,0); Mu
+Sigma = diag(2); Sigma 
+
+t = 0
+
+for(i in 1:m){
+  samp = mvrnorm(n, Mu, Sigma)
+  r = cor(samp[,1], samp[,2])
+  t[i] = r*sqrt(n-2)/sqrt(1-r^2) 
+}
+
+ggplot(NULL, aes(x=t, y=..density..))+
+    geom_histogram(binwidth=0.4, fill="#256D85", color="#256D85")+
+    geom_line(aes(x=t, y=dt(t,n-2)), size=1.05, col="#06283D")+
+    labs(title="Distribution of the statistic t",
+         x="t", y="Frequency Density")
+
+```
+
+### Comments:
+As the sample size(n) and no. of repeatitions increases the distribution of t which is originally a $t_{n-2}$ distribution is tending towards a standard normal.
+
+### Problem 2:
+\textcolor{red}{1) Draw a random sample of size n (chosen by you) from a N2(0, 0 ,1, 1, 0.5) distribution}  
+\textcolor{red}{2) compute r (sample correlation coefficient)}  
+\textcolor{red}{3) define t = $\cfrac{r\sqrt{n-2}}{\sqrt{1-r^2}}$ repeat 1 to 3 for m chosen by you}  
+\textcolor{red}{plot Histogram of the frequency distribution of t}
+
+```{r}
+rm(list=ls())
+library(MASS)
+
+n = 100
+m = 1000
+
+Mu = c(0,0); Mu
+Sigma = matrix(c(1,0.5,0.5,1), nrow=2); Sigma 
+
+t = 0
+
+for(i in 1:m){
+  samp = mvrnorm(n, Mu, Sigma)
+  r = cor(samp[,1], samp[,2])
+  t[i] = r*sqrt(n-2)/sqrt(1-r^2) 
+}
+
+ggplot(NULL, aes(x=t, y=..density..))+
+    geom_histogram(binwidth=0.4, fill="#256D85", color="#256D85")+xlim(-3,10)+
+    geom_line(aes(x=seq(-3,5,0.01), y=dt(seq(-3,5,0.01),n-2)), size=1.05, col="#06283D")+xlim(-3,10)
+    
+```
+
+### Comments:
+As the sample size(n) and no. of repeatitions increases the distribution of t is more deviating from a standard normal.
+
+### Problem 3: 
+\textcolor{red}{1) Draw a random sample of size n (chosen by you) from a N2(0, 0 ,1, 1, 0.5) distribution}  
+\textcolor{red}{2) compute r (sample correlation coefficient)}  
+\textcolor{red}{3) repeat 1 -> 3  for m chosen By you}  
+\textcolor{red}{plot Histogram of the frequency distribution of t}
+
+```{r}
+rm(list=ls())
+library(MASS)
+
+n = 100
+m = 1000
+Mu = c(0,0); Mu
+Sigma = matrix(c(1,0.5,0.5,1), nrow=2); Sigma 
+rho = 0.5
+
+r = 0
+
+for(i in 1:m){
+  samp = mvrnorm(n, Mu, Sigma)
+  r[i] = cor(samp[,1], samp[,2])
+}
+
+ggplot(NULL, aes(x=r, y=..density..))+
+    geom_histogram(binwidth=0.04, fill="#256D85", color="#256D85")+
+    geom_line(aes(x=r, y=dnorm(r, rho, sqrt(((1-rho^2)^2)/n))), size=1.05, col="#06283D")+
+    labs(title="Histogram for r in large sample",
+         x="r", y="Frequency Density")
+```
+
+### Comments:
+As the sample size(n) and no. of repeatitions increases the distribution of r is tending towards a $N(\rho,\frac{(1-\rho^2)^2}{n})$.

@@ -1,0 +1,57 @@
+---
+title: "Problem set 3"
+author: "Sayan Das (422)"
+date: "2022-09-26"
+output: pdf_document
+---
+
+# Solutions for Problem Set 3
+
+```{r}
+library(matlib)
+```
+
+```{r}
+x = c(1,1,1,1,1,2,3,4,1,3,6,10,1,4,10,20)
+M = matrix(x, nrow=4, byrow=F);M
+```
+
+```{r}
+tr(M)
+```
+
+```{r}
+R(M)
+```
+
+```{r}
+Inverse(M)
+```
+
+```{r}
+deter = 0
+for(i in 1:4){
+  deter = deter + M[1,i]*cofactor(M,1,i)
+}; deter
+```
+
+```{r}
+x1 = c(1,2,0)
+x2 = c(8,1,-6)
+x3 = c(0,0,1)
+X = cbind(x1,x2,x3); X
+GramSchmidt(X, normalize=TRUE, verbose=FALSE, tol=sqrt(.Machine$double.eps))
+```
+
+```{r}
+M = matrix(0, nrow=4, ncol=3)
+M[1,] = c(2, 3, 1)
+M[2,] = c(1, 0, 4)
+M[3,] = c(2, 4, 1)
+M[4,] = c(0, 3, 2)
+
+library(pracma)
+rref(M)
+```
+Here  from the row reduced echelon form  of the Matrix we can see that the Rank is 3. Which means all the rows  of the matrix M are not Independent.
+

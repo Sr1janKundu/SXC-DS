@@ -1,0 +1,152 @@
+---
+title: "Class Work"
+author: "Sayan Das"
+date: "2022-09-26"
+output: pdf_document
+---
+
+# tibble, dplyr, tidyverse tutorial
+
+### Calling the 'flights' dataset from the nycflights13 library
+flights dataset is available in the *nycflights13* library. To use it, it should be installed into the system.
+```{r}
+library(nycflights13)
+flights
+```
+
+### Query: Give all the flights that departed on the 1st january
+Here we are going to use filter() function which Is available in the *dplyr* package. Let us first call the package. 
+
+```{r}
+library(dplyr)
+```
+
+**Syntax**  
+filter(dataset name, feature where the condition is applied)  
+
+The query can be solved In the following way.
+
+```{r}
+filter(flights, month==1, day==1)
+```
+
+### Query: Give all the flights that Departed on November or December
+The query can be solved In the following way.
+
+```{r}
+filter(flights, month %in% c(11,12))
+
+## alternative  
+# filter(flights, month==11 | month==12)
+```
+
+### Find flights that were not delayed on arrival or departure by more than 2 hours
+The query can be solved In the following way.
+
+```{r}
+filter(flights, arr_delay <= 120 & dep_delay <= 120)
+
+## alternative 
+# filter(flights, !(arr_delay > 120 | dep_delay > 120))
+```
+
+### Find the flights with arrival delay  of 2 or more hours
+The query can be solved In the following way.
+
+```{r}
+filter(flights, arr_delay >= 120)
+```
+
+### Find the flights that flew to houston
+The query can be solved In the following way.
+
+```{r}
+filter(flights, dest %in% c("IAH","HOU") )
+```
+
+### Find the flights operated by United, America or delta
+The query can be solved In the following way.
+
+```{r}
+filter(flights, carrier %in% c("UA", "AA", "DL"))
+```
+
+### Find the flights that departed in Summer (July, August, September) 
+The query can be solved In the following way.
+
+```{r}
+filter(flights, month %in% c(7,8,9))
+```
+
+### Find the flights that arrive more than 2 hours late but did not leave late
+The query can be solved In the following way.
+
+```{r}
+filter(flights, arr_delay > 120 & dep_delay <= 0)
+```
+
+### Find that were delay by atleast an hour but made up over 30 minutes in flights
+The query can be solved In the following way.
+
+```{r}
+filter(flights, arr_delay >= 60 & dep_delay - arr_delay > 30)
+```
+
+### flight that departed between midnight and 6am both inclusive
+The query can be solved In the following way.
+
+```{r}
+filter(flights, dep_time >= 0 & dep_time <= 600)
+## alternative
+# filter(flights, between(dep_time, 0, 600)) 
+```
+
+### Find how many flights are missing departure time
+The query can be solved In the following way.
+
+```{r}
+filter(flights, is.na(dep_time))
+```
+### From the flight dataset consider arrival delay departure delay distance and air time
+
+Here we can use the select() function which is available inside the *dplyr* package.  
+
+**Syntax**  
+select(dataset name, feature name)  
+
+The query can be solved In the following way.
+
+```{r}
+flight1 = select(flights, arr_delay, dep_delay, distance, air_time); flight1
+```
+
+using mutate() function we can add a column to a dataset which is a transformation of the existing columns of the dataset.  
+
+**Syntax**  
+mutate(dataset name, variable name = variable Definition)
+
+```{r}
+mutate(flight1, gain=arr_delay-dep_delay, speed=distance*60/air_time)
+```
+
+transmute() function do exactly as mutate() function but it shows the computed columns seperately  
+
+**Syntax**
+transmute(datset, variable name = variable definition)
+
+```{r}
+transmute(flights, gain=arr_delay-dep_delay, speed=distance*60/air_time)
+```
+
+### How can you compute hour and minute from departure time using transmute
+
+```{r}
+transmute(flights, hour=dep_time%/%100, minute=dep_time %% 100)
+```
+### note: Tibble functions
+filter() (in *dplyr* library) : filter a data according to some condition  
+names(): find the names of the variable in the dataset  
+between() (in *dplyr* library) : condition on variable having values between two other values  
+select(): used to select particular columns from a dataset  
+mutate(): used to append a column in the dataset  
+transmute(): used to show a tranformation on column in the dataset

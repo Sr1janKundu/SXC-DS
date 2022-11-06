@@ -1,0 +1,120 @@
+---
+title: "Class Work"
+author: "Sayan Das"
+date: "2022-10-31"
+output: pdf_document
+---
+
+# tibble, dplyr, tidyverse tutorial (continued...)
+
+### Calling the 'flights' dataset from the nycflights13 library
+flights dataset is available in the *nycflights13* library. To use it, it should be installed into the system.
+```{r}
+library(nycflights13)
+library(dplyr)
+flights
+```
+
+```{r}
+small_flight = select(flights, arr_delay, dep_delay, distance, air_time)
+small_flight = mutate(small_flight, gain = arr_delay-dep_delay, speed = distance/air_time*60)
+```
+
+### Query: On an average what is The departure delay? And also report the average speed
+Using summarize() function we can do operation on the rows. Like we can apply average on a particular columns. 
+
+**syntax**  
+summaraise(dataset name, summarization factor name = definition )
+```{r}
+summarise(small_flight, avg_delay = mean(dep_delay, na.rm=TRUE), avg_speed = mean(speed, na.rm=TRUE))
+```
+
+**Similarity between mutate() and summarize()**  
+Both of them  returns a dataframe in a tibble format  
+Both of are doing some arithmatic operation
+
+**Dis-similarirty between mutate() and summarize()**  
+mutate() is taking vectorize function only...That is it takes a vector input and it also returns a vector output.
+
+But in summarize() we are condensing the data, here the result need not to be vectorize.
+
+### Query: Report the average departure delay and total departure delay for eachday
+group_by() function is going to help us in this case. It helps to apply aggregate funtion for each of the values available in some column
+
+**syntax**  
+group_by(dataset name, column1, column2, column3,...) column1, column2, column3 are those column according to whose values the data should be grouped.
+
+```{r}
+day_wise = group_by(flights, year, month, day)
+summarise(day_wise, avg_dep_delay = mean(dep_delay, na.rm=TRUE), tot_dep_delay = sum(dep_delay, na.rm=TRUE))
+```
+
+### Query: Compute the average departure delay grouped by day , then over month  and then by year
+
+```{r}
+(per_day = summarise(day_wise, avg_delay = mean(dep_delay, na.rm=TRUE)))
+(per_month = summarise(per_day, avg_delay = mean(avg_delay, na.rm=TRUE)))
+(per_year = summarise(per_month, avg_delay = mean(avg_delay, na.rm=TRUE)))
+```
+
+### Query: 
+**Suppose I want to  study the relationship between the distance and average arrival delay for each destination. For this I have to  do the following steps 
+1. Group all flights by destinations
+2. Summarise the data to compute the average distance, average delay and no. of flights arriving in each destination
+3. Filter to remove noisy points and Honolulu air which is twice as far away as the next closest airport
+4. Prepare a scatter plot of average distance and average arrival delay **
+
+Here we are going to need n() function that will be helping us to count the number of flights. 
+
+**syntax**  
+n(): (no argument needed) see example
+
+Here noisy point means those destinations that has less or equal to 20 flights arrived.  
+```{r}
+dest_wise = group_by(flights, dest)
+destwise_summary = summarise(dest_wise, avg_dist = mean(distance, na.rm=TRUE), avg_arr_delay = mean(arr_delay, na.rm=TRUE), flight_count=n())
+filtered = filter(destwise_summary, dest != 'HNL', flight_count > 20)
+
+library(ggplot2)
+
+ggplot(filtered, aes(x = avg_dist, y = avg_arr_delay))+
+  geom_point(colour='Red', size =1.02)+
+  geom_smooth(se=FALSE)+
+  labs(x = 'Average Distance', y = 'Average Arrival Delay',
+       title = 'Scatterplot: Average Distance Vs Average Arrival Time',
+       subtitle = 'For Several airports')
+```
+
+As the distance increases the arrival delay decreases, that means it is easier for the flights to  make up the delay when it is getting a long airtime. 
+
+### Pipe operator %>%
+pipe operator (%>%) is used when a number of functions are applied sequentially. It helps us to avoid renaming for multiple time. The result of the previous query using pipe operator is given below. 
+
+```{r}
+### previous query using pipe operator
+new_data = flights %>% 
+      group_by(dest) %>%
+      summarise(avg_dist = mean(distance, na.rm=TRUE), 
+                avg_arr_delay = mean(arr_delay, na.rm=TRUE), 
+                flight_count=n()) %>%
+      filter(dest != 'HNL', flight_count > 20)
+
+library(ggplot2)
+ggplot(new_data, aes(x = avg_dist, y = avg_arr_delay))+
+  geom_point(colour='Red', size =1.02)+
+  geom_smooth(se=FALSE)+
+  labs(x = 'Average Distance', y = 'Average Arrival Delay',
+       title = 'Scatterplot: Average Distance Vs Average Arrival Time',
+       subtitle = 'For Several airports')
+  
+```
+### note: Tibble functions used so far
+filter(): filter a data according to some condition  
+names(): find the names of the variable in the dataset  
+between(): condition on variable having values between two other values  
+select(): used to select particular columns from a dataset  
+mutate(): used to append a column in the dataset  
+transmute(): used to show a tranformation on column in the dataset  
+summarise(): used to get a aggregate measure on any column  
+group_by(): used to group the dataset accorning to the values of some column.
+n(): used to count the number of observations 

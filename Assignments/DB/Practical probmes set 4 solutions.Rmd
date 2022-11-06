@@ -1,0 +1,150 @@
+---
+title: "Practical Problem Set - 4 (DB)"
+author: "Srijan Kundu"
+date: "Nov 05, 2022"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(matlib)
+library(pracma)
+```
+
+## Question 1: Let $S$ be the 2‐dimensional subspace of $R^3$ spanned by the orthogonal vectors $v_1 = (1, 2, 1)$ and $v_2 = (1, −1, 1)$. Write the vector $v = (−2, 2, 2)$ as the sum of a vector in $S$ and a vector orthogonal to $S$.
+
+```{r}
+v11 = c(1, 2, 1)
+v12 = c(1, -1, 1)
+v13 = c(-2, 2, 2)
+v14 = v11*dot(v13, v11)/dot(v11, v11) + v12*dot(v13, v12)/dot(v12, v12)
+v14
+v15 = v13 - v14
+v15
+```
+Here, the vector $(-2, 2, 2) = (0, 2, 0) + (-2, 0, 2)$; where $(0, 2, 0) \in S$ and $(-2, 0, 2) \perp S$.
+
+## Question 2: Let $P$ be the subspace of $R^3$ specified by the equation $2 x + y + 2 z = 0$. Find the distance between $P$ and the point $q = (3, 2, 1)$.
+```{r}
+v21 = c(2, 1, 2)
+v22 = c(3, 2, 1)
+abs(dot(v21, v22))/Norm(v21)
+```
+The required distance is 3.33 units.
+
+## Question 3: 	Let $H$ be the 3‐dimensional subspace of $R^4$ with basis $B = \{v_1 = (0,1,-1,0), v_2 = (0,1,0,1), v_3 = (1,-1,0,0)\}$.
+```{r}
+v31 = c(0, 1, -1, 0)
+v32 = c(0, 1, 0, 1)
+v33 = c(1, -1, 0, 0)
+M31 = cbind(v31, v32, v33)
+M31
+```
+
+### 3.(i) Find the orthogonal basis for $H$.
+```{r}
+M32 = GramSchmidt(M31, normalize = F, verbose = F, tol = sqrt(.Machine$double.eps))
+M32
+```
+The columns of the matrix $M_{32}$ above are an orthogonal basis of $H$.
+
+### 3.(ii) Find the orthonormal basis for $H$.
+```{r}
+M33 =GramSchmidt(M31, normalize = T, verbose = F, tol = sqrt(.Machine$double.eps))
+M33
+```
+The columns of the matrix $M_{33}$ above are an orthonormal basis of $H$.
+
+### 3.(iii) What are the components of the vector $x = (1, 1, -1, 1)$ relative to this orthonormal basis?
+```{r}
+v33 = c(1, 1, -1, 1)
+c31 = dot(v33, M33[, 1])
+c32 = dot(v33, M33[, 2])
+c33 = dot(v33, M33[, 3])
+v34 = c(c31, c32, c33)
+v34
+```
+```{r}
+#check if v34 is in H
+rref(cbind(M33, v33))
+```
+As we can see, $v_{33}$ can be spanned by first 3 column vectors of the augmented matrix above.
+
+The components of the vector $x = (1, 1, -1, 1)$ relative to this orthonormal basis represented by the columns of $M_{33}$ are $1.414,\;0.816,\;1.155$ respectively.
+```{r}
+#verification
+v33
+t(M33 %*% matrix(v34))
+```
+
+
+### 3.(iv) What happens if you attempt to find the components of the vector $y = (1, 1, 1, 1)$ relative to the orthonormal basis?
+```{r}
+v35 = c(1, 1, 1, 1)
+c35 = dot(v35, M33[, 1])
+c36 = dot(v35, M33[, 2])
+c37 = dot(v35, M33[, 3])
+v36 = c(c35, c36, c37)
+v36
+```
+
+```{r}
+#check if v35 is in H
+rref(cbind(M33, v35))
+```
+As we can see, $v_{35}$ can not be spanned by first 3 column vectors of the augmented matrix above.
+
+```{r}
+#verification
+v35
+t(M33 %*% matrix(v36))
+```
+As we can see, $v_{35} \neq (0.5, 0.5, 0.5, 1.5)$. This is because the vector $v_{35}$ is not in $H$, meaning no linear combination of basis vectors of $H$ can give $(1, 1, 1, 1)$.
+
+
+## Question 4: Find the Kronecker product of the following matrices and verify that $A⊗B ≠ B⊗A$:
+
+### 4.(i) $A = \begin{bmatrix}2&3\\0&1 \end{bmatrix}, B = \begin{bmatrix}0&-1\\-1&1 \end{bmatrix}$.
+```{r}
+M41 = matrix(c(2, 3, 0, 1), nrow = 2, byrow = T)
+M42 = matrix(c(0, -1, -1, 1), nrow = 2, byrow = T)
+M41%x%M42
+M42%x%M41
+```
+
+### 4.(ii) $A = \begin{bmatrix}1&2\\3&4\\1&0 \end{bmatrix}, B = \begin{bmatrix}0&5&2\\6&7&3 \end{bmatrix}$.
+```{r}
+M43 = matrix(c(1, 2, 3, 4, 1, 0), nrow = 3, byrow = T)
+M44 = matrix(c(0, 5, 2, 6, 7, 3), nrow = 2, byrow = T)
+M43%x%M44
+M44%x%M43
+```
+
+## Question 5: Let $u = \begin{pmatrix} 1\\0\end{pmatrix}, v = \begin{pmatrix}0\\1 \end{pmatrix}$. Find $u⊗u, u⊗v, v⊗u$ and $v⊗v$. Which space do they span?
+```{r}
+V51 = c(1, 0)
+V52 = c(0, 1)
+#u⊗u
+matrix(V51)%x%matrix(V51)
+#u⊗v
+matrix(V51)%x%matrix(V52)
+#v⊗u
+matrix(V52)%x%matrix(V51)
+#v⊗v
+matrix(V52)%x%matrix(V52)
+
+```
+These 4 vectors together span $R^4$.
+
+## Question 6: Let $A = \begin{pmatrix}2&0&1\\3&1&0 \end{pmatrix}, B = \begin{pmatrix}1&2&2\\1&2&0 \end{pmatrix}$. Find $rank(A), rank(B)$ and $rank(A ⊗ B)$.
+```{r}
+M61 = matrix(c(2, 0, 1, 3, 1, 0), nrow = 2, byrow = T)
+M62 = matrix(c(1, 2, 2, 1, 2, 0), nrow = 2, byrow = T)
+#rank(A)
+R(M61)
+#rank(B)
+R(M62)
+#rank(A ⊗ B)
+R(M61 %x% M62)
+```
+
