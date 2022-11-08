@@ -24,13 +24,16 @@ v15
 ```
 Here, the vector $(-2, 2, 2) = (0, 2, 0) + (-2, 0, 2)$; where $(0, 2, 0) \in S$ and $(-2, 0, 2) \perp S$.
 
-## Question 2: Let $P$ be the subspace of $R^3$ specified by the equation $2 x + y + 2 z = 0$. Find the distance between $P$ and the point $q = (3, 2, 1)$.
+## Question 2: Let $P$ be the subspace of $R^3$ specified by the equation $2 x + y = 2 z = 0$. Find the distance between $P$ and the point $q = (3, 2, 1)$.
+The basis for the system $2 x + y = 2 z = 0$ is $(-0.5, 1, 0)$. Hence, we need to calculate the orthogonal projection of the point $(3, 2, 1)$ on the line spanned by the vector $(-0.5, 1, 0)$.
+
 ```{r}
-v21 = c(2, 1, 2)
+v21 = c(-0.5, 1, 0)
 v22 = c(3, 2, 1)
-abs(dot(v21, v22))/Norm(v21)
+v22 - v21*dot(v21, v22)/dot(v21, v21)
+Norm(v22)
 ```
-The required distance is 3.33 units.
+The required distance is 3.74 units.
 
 ## Question 3: 	Let $H$ be the 3‐dimensional subspace of $R^4$ with basis $B = \{v_1 = (0,1,-1,0), v_2 = (0,1,0,1), v_3 = (1,-1,0,0)\}$.
 ```{r}
@@ -132,7 +135,6 @@ matrix(V51)%x%matrix(V52)
 matrix(V52)%x%matrix(V51)
 #v⊗v
 matrix(V52)%x%matrix(V52)
-
 ```
 These 4 vectors together span $R^4$.
 
@@ -147,4 +149,3 @@ R(M62)
 #rank(A ⊗ B)
 R(M61 %x% M62)
 ```
-

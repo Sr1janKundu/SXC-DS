@@ -1,0 +1,160 @@
+---
+title: "SC_MD_Nov-07_1"
+author: "Srijan Kundu"
+date: "2022-11-07"
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(matlib)
+library(pracma)
+```
+
+## Question 1: Suppose we want to generate $20$ random observations from a $N(2, 1)$ distribution, and compute the mean of those observations.
+
+```{r}
+samp1 = rnorm(20, 2, 1)
+samp1
+mean(samp1)
+```
+
+## Question 2: Suppose we want to repeat this procedure $R = 10$ times.
+
+> **Steps:**
+>
+> 1\. Draw a random sample of size $n = 20$ from $N(2, 1)$ distribution.
+>
+> 2\. Compute mean of the observations from *step 1*.
+>
+> 3\. Repeat *Step 1 and 2* $R$ times.
+
+To perform such repetitive tasks, we can make use of the function `replicate`.
+
+The syntax is: `replicate(n, expr)`; where `n` stands for the number of replications, and `expr` stands for the expression that we have to evaluate multiple times.
+
+```{r}
+R1 = 10
+samp2 = replicate(R1, mean(rnorm(20, 2, 1)))
+samp2
+```
+
+## Question 3: Suppose we want to compute the mean of these $R$ sample means, and the variance.
+
+```{r}
+mean(samp2)
+var(samp2)
+(R1-1)*var(samp2)/R1
+```
+
+## Question 4: Make $R = 100$, similarly as above, find the mean, var and draw the histogram.
+
+```{r}
+R2 = 100000
+samp3 = replicate(R2, mean(rnorm(20, 2, 1)))
+#hist(samp3, freq = FALSE)
+ggplot(data = NULL, aes(x = samp3)) + geom_histogram(aes(y=..density..)) +geom_density(colour = "cyan")
+```
+
+### *Suppose we want to write a program for the same problem using a user defined function.*
+
+-   The syntax for an user defined function is as below:
+
+    f = function(x){
+
+    x\*x\*x
+
+    }
+
+-   Here, f(x) returns $x^3$.
+
+```{r demo}
+f1 = function(x){
+  x^3
+}
+u = 1:4
+f1(u)
+```
+
+> Note that here `f` is the name of the function given by the user and `x` is the argument, which can be a scalar or a vector. The function must be enclosed within {}. The argument inside the function and outside the function need not be given the same name, but they must be of the same type.
+
+```{r demo function}
+f2 = function(x){
+  n = 5
+  x^3+n
+}
+u = 1:4
+f2(u)
+#n
+```
+Remember that all the constants must be defined globally (outisde the function) so that they can be used for other purposes outside the function.
+```{r}
+n = 5
+f3 = function(x){
+  x^3+n
+}
+u = 1:4
+f3(u)
+n
+```
+## Question 5: Generate a random sample of size $n= 10, 50, 100, 200, 500$ from a $N(2, 1)$ dist. and compute its mean. Repeat this procedure $1000$ times, compute the mean and the variance of the $1000$ samples means.
+```{r}
+R3 = 1000
+f4 = function(n){
+  mean(rnorm(n, 2, 1))
+}
+n = c(10, 50, 100, 500)
+v1 = c(mean(replicate(R3, f4(10))), mean(replicate(R3, f4(50))), mean(replicate(R3, f4(100))), mean(replicate(R3, f4(500))))
+v2 = c(var(replicate(R3, f4(10))), var(replicate(R3, f4(50))), var(replicate(R3, f4(100))), var(replicate(R3, f4(500))))
+data.frame(Sample_Size = n, Means = v1, Variances = v2)
+```
+_or,_
+```{r}
+f5 = function(n, R, mu, sigma){
+  g_m = g_v = array(0)
+  for(i in seq_along(n))
+  {
+    x = replicate(R, mean(rnorm(n[i], mu, sigma)))
+    g_m[i] = mean(x)
+    g_v[i] = var(x)*(R-1)/R
+  }
+  return(data.frame(sample_size = n, Grand_means = g_m, Grand_variances = g_v))
+}
+f5(c(10, 50, 100, 500), 1000, 2, 1)
+```
+_or,_
+```{r}
+k = 4
+R = 1000
+L = function(n){
+  u = replicate(R, mean(rnorm(n, 2, 1)))
+  m = mean(u)
+  v = var(u)*(R-1)/R
+  answer = c(n, m, v)
+  answer
+}
+M = matrix(0, k, 3)
+n = c(10, 50, 100, 200)
+for(i in 1:k)
+{
+  M[i,] = L(n[i])
+}
+colnames(M) = c("Sample Size", "Mean", "Variance")
+M
+```
+```{r}
+x = rnorm(100)
+y = ifelse(x>0, 1, 0)
+y
+```
+
+```{r}
+x = rnorm(100)
+y = ifelse(x<0, 1, ifelse(x>1 & x < 1.5, 2, ifelse(x > 1.5, 3, 4)))
+data.frame(x, y)
+```
+
+
+
