@@ -1,0 +1,43 @@
+---
+title: "AC_Prob_Nov-11_1"
+author: "Srijan Kundu"
+date: "2022-11-11"
+output: pdf_document
+---
+
+```{r}
+library(ggplot2)
+library(ggpubr)
+```
+
+
+### For values of $\lambda = 0.1, 0.5, 1, 1.5, 10$, and for values of $x = 0, 1, 2, ..., 50$, draw poisson graphs.
+
+```{r}
+l = c(0.1, 0.5, 1, 1.5, 10)
+x = c(0:50)
+x
+```
+Calculating the poisson values:
+
+```{r}
+samp1 = dpois(x, l[1], log = FALSE)
+samp2 = dpois(x, l[2], log = FALSE)
+samp3 = dpois(x, l[3], log = FALSE)
+samp4 = dpois(x, l[4], log = FALSE)
+samp5 = dpois(x, l[5], log = FALSE)
+```
+
+Plotting:
+```{r}
+p1 = qplot(x, samp1, geom = "point")
+p2 = qplot(x, samp2, geom = "point")
+p3 = qplot(x, samp3, geom = "point")
+p4 = qplot(x, samp4, geom = "point")
+p5 = qplot(x, samp5, geom = "point")
+fig = ggarrange(p1, p2, p3, p4, p5, labels = c("lambda = 0.1", "lambda = 0.5", "lambda = 1", "lambda = 1.5", "lambda = 10"))
+fig
+```
+
+We can see that as $\lambda$ increases, the distribution tends to be symmetric.
+

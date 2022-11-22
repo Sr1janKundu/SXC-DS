@@ -1,0 +1,221 @@
+---
+title: "Poisson Fitting AC Nov 15-16-18-22"
+author: "Soumyadeep Poddar"
+date: "2022-11-15"
+output: html_document
+---
+
+### Fitting a poisson distribution and commenting on nature of fit.
+
+Question:
+
+```{r}
+social_class <- c("LP","Working class","Artisans","Shopkeeper","White collar","Ideological Professions")
+age_0=c(13,98,33,25,87,42)
+age_1=c(31,217,69,50,184,90)
+age_2=c(40,179,68,43,106,30)
+age_3=c(31,124,36,25,38,12)
+age_4=c(18,61,24,7,22,4)
+age_5=c(22,54,14,9,21,4)
+data=data.frame(social_class,age_0,age_1,age_2,age_3,age_4,age_5)
+data
+```
+
+Solution:
+
+Entering ages as $x$ variable.
+
+```{r}
+x <- c(0,1,2,3,4,5)
+```
+
+For Lumpen-proletariat.
+
+```{r}
+obs_freq <- c(13,31,40,31,18,22)
+N=sum(obs_freq)
+mean <-  sum(x * obs_freq)/sum(obs_freq)
+prob=c()
+exp_freq=c()
+prob=dpois(x,mean)
+exp_freq=prob * sum(obs_freq)
+gfit=((obs_freq-exp_freq)^2)/exp_freq
+table1=data.frame(x,prob,obs_freq,exp_freq,gfit)
+table1
+obs_chi_1=sum(gfit)
+s_2=sum((((x-mean)^2)*obs_freq))/(N-1)
+x_by_s2=mean/s_2
+x_by_s2
+```
+
+For Working class:
+
+```{r}
+obs_freq <- c(98,217,179,124,61,54)
+mean <-  sum(x * obs_freq)/sum(obs_freq)
+prob=c()
+exp_freq=c()
+prob=dpois(x,mean)
+exp_freq=prob * sum(obs_freq)
+gfit=((obs_freq-exp_freq)^2)/exp_freq
+sum(gfit)
+table2=data.frame(x,prob,obs_freq,exp_freq,gfit)
+table2
+s_2=sum((((x-mean)^2)*obs_freq))/(N-1)
+x_by_s2=mean/s_2
+x_by_s2
+```
+
+For Artisans
+
+```{r}
+obs_freq <- c(33,69,68,36,24,14)
+mean <-  sum(x * obs_freq)/sum(obs_freq)
+prob=c()
+exp_freq=c()
+prob=dpois(x,mean)
+exp_freq=prob * sum(obs_freq)
+gfit=((obs_freq-exp_freq)^2)/exp_freq
+sum(gfit)
+table3=data.frame(x,prob,obs_freq,exp_freq,gfit)
+table3
+s_2=sum((((x-mean)^2)*obs_freq))/(N-1)
+x_by_s2=mean/s_2
+x_by_s2
+```
+
+For Shopkeeper
+
+```{r}
+obs_freq <- c(25,50,43,25,7,9)
+mean <-  sum(x * obs_freq)/sum(obs_freq)
+prob=c()
+exp_freq=c()
+prob=dpois(x,mean)
+exp_freq=prob * sum(obs_freq)
+gfit=((obs_freq-exp_freq)^2)/exp_freq
+table3=data.frame(x,prob,obs_freq,exp_freq,gfit)
+table3
+s_2=sum((((x-mean)^2)*obs_freq))/(N-1)
+x_by_s2=mean/s_2
+x_by_s2
+```
+
+For White collar
+
+```{r}
+obs_freq <- c(87,184,106,38,22,21)
+mean <-  sum(x * obs_freq)/sum(obs_freq)
+prob=c()
+exp_freq=c()
+prob=dpois(x,mean)
+exp_freq=prob * sum(obs_freq)
+gfit=((obs_freq-exp_freq)^2)/exp_freq
+obs_chi_5=sum(gfit)
+table4=data.frame(x,prob,obs_freq,exp_freq,gfit)
+table4
+s_2=sum((((x-mean)^2)*obs_freq))/(N-1)
+x_by_s2=mean/s_2
+x_by_s2
+```
+
+For ideological professions:
+
+```{r}
+obs_freq <- c(42,90,30,12,4,4)
+mean <-  sum(x * obs_freq)/sum(obs_freq)
+prob=c()
+exp_freq=c()
+prob=dpois(x,mean)
+exp_freq=prob * sum(obs_freq)
+gfit=((obs_freq-exp_freq)^2)/exp_freq
+table4=data.frame(x,prob,obs_freq,exp_freq,gfit)
+table4
+s_2=sum((((x-mean)^2)*obs_freq))/(N-1)
+x_by_s2=mean/s_2
+x_by_s2
+```
+
+## NOV 18
+
+#### Fit a geometric distribution to the given data
+
+```{r}
+#Question: 
+months <- c(1:24)
+data <- c(52,46,50,27,15,12,8,4,5,1,0,2,1,0,0,2,2,1,5,1,4,1,1,0)
+data.frame(months,data)
+```
+
+```{r}
+N=sum(data)
+N
+mean_x <- (sum(months * data))/N 
+mean_x
+s_sq <- (sum(months * months * data) - (N * (mean_x) ^ 2))/(N-1)
+
+p_hat <- mean_x/s_sq
+p_hat
+q_hat <- 1 - p_hat
+
+prob <- c()
+prob <- dgeom(months-1,p_hat)
+prob
+
+exp_freq <- c()
+exp_freq <- N * prob
+
+exp_freq
+
+data.frame(months,data,prob,exp_freq)
+
+#chi square test
+t <- sum(((data - N * prob) ^ 2)/(N * prob))
+t
+```
+
+Nov 22
+
+Plot the following Binomial distributions and comment on their skewness.
+
+```{r}
+library(ggplot2)
+```
+
+i) Bin(20,1/6)
+
+```{r}
+
+x <- 0:20
+prob <- dbinom(x,20,(1/6))
+df <- data.frame(x,prob)
+p1 <- ggplot(df,mapping=aes(x=x,y=prob))+ geom_col(colour="blue")+ labs(title = "Binomial(20,1/6)",x="x",y="P(X=x)")
+
+p1
+```
+
+ii) Bin(20,1/2)
+
+```{r}
+x <- 0:20
+prob <- dbinom(x,20,0.5)
+df <- data.frame(x,prob)
+p2 <- ggplot(df,mapping=aes(x=x,y=prob))+ geom_col(colour="purple")+ labs(title = "Binomial(20,1/2)",x="x",y="P(X=x)" )
+p2
+```
+
+
+iii) Bin(20,5/6)
+
+```{r}
+x <- 0:20
+prob <- dbinom(x,20,(5/6))
+df <- data.frame(x,prob)
+p3 <- ggplot(df,mapping=aes(x=x,y=prob))+ geom_line(colour="blue")+ labs(title = "Binomial(20,5/6)",x="x",y="P(X=x)")
+p3
+```
+
+```{r}
+
+```
+

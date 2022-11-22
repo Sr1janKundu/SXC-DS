@@ -1,0 +1,8 @@
+---
+title: "SD_Nov_15"
+author: "Srijan Kundu"
+date: "2022-11-15"
+output: pdf_document
+---
+
+## Non-central Chi square distribution

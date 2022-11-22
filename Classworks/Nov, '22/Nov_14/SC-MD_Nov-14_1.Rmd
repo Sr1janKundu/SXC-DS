@@ -1,0 +1,103 @@
+---
+title: "SC-MD_Nov-14_1"
+author: "Srijan Kundu"
+date: "2022-11-14"
+output: pdf_document
+---
+
+### Using the package `stargazer`:
+
+```{r package_loading}
+library(stargazer)
+library(dplyr)
+```
+
+```{r data_loading}
+beaver1
+```
+
+```{r}
+stargazer(beaver1, type = "text", out = "table1.txt", title = "Summary output", digits = 1, covariate.labels = c("x1", "x2", "x3"), flip = TRUE)
+```
+
+-   First argument of `stargazer` has to be a dataframe.
+
+```{r}
+stargazer(beaver1, type = "html", out = "table1.html", title = "Summary output", digits = 1, covariate.labels = c("x1", "x2", "x3"), flip = TRUE)
+```
+
+```{r}
+#default type is latex
+stargazer(beaver1, out = "table1.tex", title = "Summary output", digits = 1, covariate.labels = c("x1", "x2", "x3"), flip = TRUE)
+```
+
+### Question: Prepare a table taking a subset data from `beaver1` such that `temperature` is greater than $36.70$.
+
+```{r}
+data = beaver1[beaver1$temp>36.7, ]
+data
+beaver1
+stargazer(data, type = "text", out = "table2.txt", title = "Summary output", flip = TRUE, notes = "data taken from R")
+```
+
+### Question: For each destination, calculate average arrival delay and average distance and present it in a table. Remove Honolulu airport, and retain those destinations for which number of flights arriving is greater than 20.
+
+```{r}
+library(nycflights13)
+flights
+```
+
+```{r}
+data = flights %>% 
+  group_by(dest) %>% 
+  select(dest, arr_delay, distance) %>%
+  summarise(count = n(), avg_arr_delay = mean(arr_delay, na.rm = TRUE), avg_distance = mean(distance, na.rm = TRUE)) %>%
+  filter(dest != 'HNL' & count> 20) %>% 
+  select(dest, avg_arr_delay, avg_distance) %>% 
+  format.data.frame(digits = 3)
+data
+stargazer(data, 
+          summary = FALSE,
+          type = "text",
+          out = "table3.txt", 
+          covariate.labels = c("", "Destination", "Average-arrival-delay", "Average-distance"), 
+          digits = 3, 
+          title = "Average arrival delay and average distance and present it in a table, removed Honolulu airport, and retained those destinations for which number of flights arriving is greater than 20:", 
+          notes = "(data taken from nycflights13 package)")
+```
+
+### Question: Fit a linear regression on average arrival delay on average distance. Also fit a second degree regression on average arrival delay on distance. Present the output in a tabular form.
+
+```{r}
+y = as.numeric(data$avg_arr_delay) 
+x = as.numeric(data$avg_distance)  
+linmod1 = lm(y~x)
+linmod2 = lm(y~x+I(x^2))
+linmod1
+linmod2
+```
+
+```{r}
+stargazer(linmod1, linmod2, 
+          type = "html", 
+          out = "table4.html", 
+          dep.var.labels = "Arrival delay", 
+          covariate.labels = c("distance", "distance**2", "constant-term"), 
+          title = "Regression on average delay in arrival vs average distance", 
+          notes = "(data taken from nycfights pakage)")
+```
+
+------------------------------------------------------------------------
+
+-   `dpois(x, lambda)` gives $P[X = x]$.
+
+-   `ppois(x, lambda)` gives $P[X \leq x]$, where $X \sim P(\lambda)$.
+
+-   `qpois(x, lambda)` gives such a value of $x$ for which $P[X \leq x]$ is *at least* $p$.
+
+-   In case we want to find $P[X > 2]$, we can do `ppois(2, 2, lowwer.tail = FALSE)`
+
+-   `rpois(n, lambda)` is to get $n$ random values from the $P(\lambda)$ distribution.
+
+| Distribution name | Density function | Distribution function | Quantile function | Random generation |
+|---------------|---------------|---------------|---------------|---------------|

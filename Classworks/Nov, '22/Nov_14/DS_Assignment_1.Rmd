@@ -1,0 +1,402 @@
+---
+title: "DS_Assignment_1"
+author: "Srijan Kundu"
+date: "Nov 13, 2022"
+output: pdf_document
+---
+
+```{r}
+library("ie2misc")
+library("stats")
+```
+
+## Question:
+
+Carry out $steps\;1 - 5$ for the following distributions:
+
+1.  $N(0, 1)$,
+2.  $Cauchy(0, 1)$,
+3.  $LogNormal(0, 1)$,
+4.  $Gamma(1, \frac1 2)$,
+5.  $Beta(3, 3)$,
+6.  $Beta(3, 1)$,
+7.  $Beta(\frac 1 2, 3)$,
+8.  $t_5$,
+9.  $t_{20}$.
+
+### Steps:
+
+1.  Draw a random sample of size $n$ from $\displaystyle f_{\theta}(x)$.
+2.  Compute the following quantities:
+    i)  the ratio $\displaystyle \frac{\bar{x}-mode(x)}{\bar{x} - median(x)}$,
+    ii) the ratio $\displaystyle \frac{MD_{\bar{x}}}{sd(x)}$,
+    iii) the ratio $\displaystyle \frac{SIQR(x)}{SD(x)}$,
+    iv) $\%$ of observations in the interval $\displaystyle \bar{x} \pm 6\times SD$,
+    v)  $\%$ of observations in the interval $\displaystyle \bar{x} \pm 7.5\times MD_{\bar{x}}$,
+    vi) $\%$ of observations in the interval $\displaystyle \bar{x} \pm 9\times QD$.
+3.  Repeat $steps\;1-2$ for $R = 1000$ times. This will generate $R$ values for each sets of quantities computed in $step\;2$.
+4.  For each of the quantities obtained in $step\;2$, repeat the minimum and maximum value in the form of an interval.
+5.  Carry out $steps\;1-4$ for $n = 10, 100, 1000, 5000$.
+
+------------------------------------------------------------------------
+
+## Answer:
+
+```{r}
+n = c(10, 100, 1000, 5000)
+R = 1000
+```
+
+### Data collection and preparation for manipulation:
+
+```{r data_preparation]]}
+data1 = array(NA, c(9, 10, 1000))
+data2 = array(NA, c(9, 100, 1000))
+data3 = array(NA, c(9, 1000, 1000))
+data4 = array(NA, c(9, 5000, 1000))
+
+data1[1, , ] = replicate(R, rnorm(n[1], 0, 1))
+data1[2, , ] = replicate(R, rcauchy(n[1], 0, 1))
+data1[3, , ] = replicate(R, rlnorm(n[1], 0, 1))
+data1[4, , ] = replicate(R, rgamma(n[1], shape = 1, scale = 0.5))
+data1[5, , ] = replicate(R, rbeta(n[1], 3, 3))
+data1[6, , ] = replicate(R, rbeta(n[1], 3, 1))
+data1[7, , ] = replicate(R, rbeta(n[1], 0.5, 3))
+data1[8, , ] = replicate(R, rt(n[1], 5))
+data1[9, , ] = replicate(R, rt(n[1], 20))
+
+data2[1, , ] = replicate(R, rnorm(n[2], 0, 1))
+data2[2, , ] = replicate(R, rcauchy(n[2], 0, 1))
+data2[3, , ] = replicate(R, rlnorm(n[2], 0, 1))
+data2[4, , ] = replicate(R, rgamma(n[2], shape = 1, scale = 0.5))
+data2[5, , ] = replicate(R, rbeta(n[2], 3, 3))
+data2[6, , ] = replicate(R, rbeta(n[2], 3, 1))
+data2[7, , ] = replicate(R, rbeta(n[2], 0.5, 3))
+data2[8, , ] = replicate(R, rt(n[2], 5))
+data2[9, , ] = replicate(R, rt(n[2], 20))
+
+data3[1, , ] = replicate(R, rnorm(n[3], 0, 1))
+data3[2, , ] = replicate(R, rcauchy(n[3], 0, 1))
+data3[3, , ] = replicate(R, rlnorm(n[3], 0, 1))
+data3[4, , ] = replicate(R, rgamma(n[3], shape = 1, scale = 0.5))
+data3[5, , ] = replicate(R, rbeta(n[3], 3, 3))
+data3[6, , ] = replicate(R, rbeta(n[3], 3, 1))
+data3[7, , ] = replicate(R, rbeta(n[3], 0.5, 3))
+data3[8, , ] = replicate(R, rt(n[3], 5))
+data3[9, , ] = replicate(R, rt(n[3], 20))
+
+data4[1, , ] = replicate(R, rnorm(n[4], 0, 1))
+data4[2, , ] = replicate(R, rcauchy(n[4], 0, 1))
+data4[3, , ] = replicate(R, rlnorm(n[4], 0, 1))
+data4[4, , ] = replicate(R, rgamma(n[4], shape = 1, scale = 0.5))
+data4[5, , ] = replicate(R, rbeta(n[4], 3, 3))
+data4[6, , ] = replicate(R, rbeta(n[4], 3, 1))
+data4[7, , ] = replicate(R, rbeta(n[4], 0.5, 3))
+data4[8, , ] = replicate(R, rt(n[4], 5))
+data4[9, , ] = replicate(R, rt(n[4], 20))
+```
+
+### Functions initialization:
+
+```{r function_creation}
+getmode <- function(v) #for mode calculation
+{
+  uniqv <- unique(v)
+  uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+f1 = function(data)   #1_to_calculate_2(i)
+{
+  return(mean(data) - getmode(data)/(mean(data) - median(data)))
+}
+f2 = function(data)   #2_to_calculate_2(ii)
+{
+  return(madstat(data)/sd(data))
+}
+f3 = function(data)   #3_to_calculate_2(iii)
+{
+  return((quantile(data, 0.75)-quantile(data, 0.25))/2*sd(data))
+}
+f4 = function(data)   #4_to_calculate_2(iv)
+{
+  return(100*sum(data > (mean(data) - 6*sd(data)) & data < (mean(data) + 6*sd(data)) )/1000)
+}
+f5 = function(data)   #5_to_calculate_2(v)
+{
+   return(100*sum(data > (mean(data) - 7.5*madstat(data)) & data < (mean(data) + 7.5*madstat(data)) )/1000)
+}
+f6 = function(data)   #6_to_calculate_2(vi)
+{
+   return(100*sum(data > (mean(data) - 9*(quantile(data, 0.75)-quantile(data, 0.25))/2) & data < (mean(data) + 9*(quantile(data, 0.75)-quantile(data, 0.25))/2))/1000)
+}
+```
+
+### (i) For the ratio $\displaystyle \frac{\bar{x}-mode(x)}{\bar{x} - median(x)}$:
+
+```{r}
+vect1 = array(NA, c(4, 9, 1000))
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect1[1, i, j] = f1(data1[i, , j])  #1
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect1[2, i, j] = f1(data2[i, , j])  #2
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect1[3, i, j] = f1(data3[i, , j])  #3
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect1[4, i, j] = f1(data4[i, , j])  #4
+  }
+}
+
+m1 = array(NA, c(4, 9, 2))
+for (i in 1:4)
+{
+  for (j in 1:9)
+  {
+    m1[i, j, ] = c(min(vect1[i, j, ]), max(vect1[i, j, ]))
+  }
+}
+
+data.frame("Sample_size" = n, "dist1" = m1[, 1, ], "dist2"= m1[, 2, ], "dist3" = m1[, 3, ], "dist4" = m1[, 4, ], "dist5" = m1[, 5, ], "dist6" = m1[, 6, ], "dist7" = m1[, 7, ], "dist8" = m1[, 8, ], "dist9" = m1[, 9, ])
+```
+
+### (ii) For the ratio $\displaystyle \frac{MD_{\bar{x}}}{sd(x)}$:
+
+```{r}
+vect2 = array(NA, c(4, 9, 1000))
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect2[1, i, j] = f2(data1[i, , j])  #1
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect2[2, i, j] = f2(data2[i, , j])  #2
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect2[3, i, j] = f2(data3[i, , j])  #3
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect2[4, i, j] = f2(data4[i, , j])  #4
+  }
+}
+
+m2 = array(NA, c(4, 9, 2))
+for (i in 1:4)
+{
+  for (j in 1:9)
+  {
+    m2[i, j, ] = c(min(vect2[i, j, ]), max(vect2[i, j, ]))
+  }
+}
+
+data.frame("Sample_size" = n, "dist1" = m2[, 1, ], "dist2"= m2[, 2, ], "dist3" = m2[, 3, ], "dist4" = m2[, 4, ], "dist5" = m2[, 5, ], "dist6" = m2[, 6, ], "dist7" = m2[, 7, ], "dist8" = m2[, 8, ], "dist9" = m2[, 9, ])
+```
+
+### (iii) For the ratio $\displaystyle \frac{SIQR(x)}{SD(x)}$:
+
+```{r}
+vect3 = array(NA, c(4, 9, 1000))
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect3[1, i, j] = f3(data1[i, , j])  #1
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect3[2, i, j] = f3(data2[i, , j])  #2
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect3[3, i, j] = f3(data3[i, , j])  #3
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect3[4, i, j] = f3(data4[i, , j])  #4
+  }
+}
+
+m3 = array(NA, c(4, 9, 2))
+for (i in 1:4)
+{
+  for (j in 1:9)
+  {
+    m3[i, j, ] = c(min(vect3[i, j, ]), max(vect3[i, j, ]))
+  }
+}
+
+data.frame("Sample_size" = n, "dist1" = m3[, 1, ], "dist2"= m3[, 2, ], "dist3" = m3[, 3, ], "dist4" = m3[, 4, ], "dist5" = m3[, 5, ], "dist6" = m3[, 6, ], "dist7" = m3[, 7, ], "dist8" = m3[, 8, ], "dist9" = m3[, 9, ])
+```
+
+### (iv) For $\%$ of observations in the interval $\displaystyle \bar{x} \pm 6\times SD$:
+
+```{r}
+vect4 = array(NA, c(4, 9, 1000))
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect4[1, i, j] = f4(data1[i, , j])  #1
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect4[2, i, j] = f4(data2[i, , j])  #2
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect4[3, i, j] = f4(data3[i, , j])  #3
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect4[4, i, j] = f4(data4[i, , j])  #4
+  }
+}
+
+m4 = array(NA, c(4, 9, 2))
+for (i in 1:4)
+{
+  for (j in 1:9)
+  {
+    m4[i, j, ] = c(min(vect4[i, j, ]), max(vect4[i, j, ]))
+  }
+}
+
+data.frame("Sample_size" = n, "dist1" = m4[, 1, ], "dist2"= m4[, 2, ], "dist3" = m4[, 3, ], "dist4" = m4[, 4, ], "dist5" = m4[, 5, ], "dist6" = m4[, 6, ], "dist7" = m4[, 7, ], "dist8" = m4[, 8, ], "dist9" = m4[, 9, ])
+```
+
+### (v) For $\%$ of observations in the interval $\displaystyle \bar{x} \pm 7.5\times MD_{\bar{x}}$:
+
+```{r}
+vect5 = array(NA, c(4, 9, 1000))
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect5[1, i, j] = f5(data1[i, , j])  #1
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect5[2, i, j] = f5(data2[i, , j])  #2
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect5[3, i, j] = f5(data3[i, , j])  #3
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect5[4, i, j] = f5(data4[i, , j])  #4
+  }
+}
+
+m5 = array(NA, c(4, 9, 2))
+for (i in 1:4)
+{
+  for (j in 1:9)
+  {
+    m5[i, j, ] = c(min(vect5[i, j, ]), max(vect5[i, j, ]))
+  }
+}
+
+data.frame("Sample_size" = n, "dist1" = m5[, 1, ], "dist2"= m5[, 2, ], "dist3" = m5[, 3, ], "dist4" = m5[, 4, ], "dist5" = m5[, 5, ], "dist6" = m5[, 6, ], "dist7" = m5[, 7, ], "dist8" = m5[, 8, ], "dist9" = m5[, 9, ])
+```
+
+### (vi) For $\%$ of observations in the interval $\displaystyle \bar{x} \pm 9\times QD$:
+
+```{r}
+vect6 = array(NA, c(4, 9, 1000))
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect6[1, i, j] = f6(data1[i, , j])  #1
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect6[2, i, j] = f6(data2[i, , j])  #2
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect6[3, i, j] = f6(data3[i, , j])  #3
+  }
+}
+for (i in 1:9)
+{
+  for (j in 1:1000)
+  {
+    vect6[4, i, j] = f6(data4[i, , j])  #4
+  }
+}
+
+m6 = array(NA, c(4, 9, 2))
+for (i in 1:4)
+{
+  for (j in 1:9)
+  {
+    m6[i, j, ] = c(min(vect6[i, j, ]), max(vect6[i, j, ]))
+  }
+}
+
+data.frame("Sample_size" = n, "dist1" = m6[, 1, ], "dist2"= m6[, 2, ], "dist3" = m6[, 3, ], "dist4" = m6[, 4, ], "dist5" = m6[, 5, ], "dist6" = m6[, 6, ], "dist7" = m6[, 7, ], "dist8" = m6[, 8, ], "dist9" = m6[, 9, ])
+```

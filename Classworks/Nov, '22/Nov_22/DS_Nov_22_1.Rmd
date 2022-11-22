@@ -1,0 +1,92 @@
+---
+title: "DS_Nov_22_1"
+author: "Srijan Kundu"
+date: "2022-11-22"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
+## Loading `diamonds` dataset:
+
+```{r}
+diamonds
+glimpse(diamonds)
+```
+
+## Random sampling $2000$ rows from `diamonds`:
+
+```{r}
+data_dia = slice_sample(diamonds, n = 2000)
+```
+
+### Obtain a scatterplot of the carat and the price:
+
+```{r}
+p1 = ggplot(data_dia, aes(x = carat, y = price))
+p1 + geom_point()
+```
+
+### Represent the points in the scatterplot by the specific colors of the specific diamonds:
+
+```{r}
+p1 + geom_point(aes(color = color))
+```
+
+### Indicate different colors of different diamonds by different shapes:
+
+```{r}
+p1 + geom_point(aes(shape = color))
+```
+
+### Try size to distinguish as well:
+
+```{r}
+p1 + geom_point(aes(size = color))
+```
+
+### Use both color and shape to distinguish:
+
+```{r}
+p1 + geom_point(aes(shape = color, color = color))
+```
+
+### Different scatterplots on the basis of different colors of diamonds:
+
+```{r}
+p1 + geom_point(aes(color = color)) + facet_grid(~color)
+p1 + geom_point(aes(color = color)) + facet_wrap(~color)
+p1 + geom_point(aes(color = color)) + facet_wrap(vars(color))
+```
+
+### Obtain barplot of the frequency distribution of the colors:
+
+```{r}
+p2 = ggplot(diamonds, aes(x = color, fill = color)) 
+p2 + geom_bar()
+```
+
+### Modify the bar width:
+
+```{r}
+p2 + geom_bar(width = 0.5)
+p2 + geom_bar(width = 1)
+p2 + geom_bar(width = 10)
+p2 + geom_bar(color = "black")
+```
+
+### Make the bar diagram horizontal:
+
+```{r}
+p2 + geom_bar() + coord_flip()
+```
+
+### Within each color, consider the frequency distribution of different clarity (do in same graph, first in horizontally placed bars and then for stacked for each color):
+
+```{r}
+
+```
+
+###  

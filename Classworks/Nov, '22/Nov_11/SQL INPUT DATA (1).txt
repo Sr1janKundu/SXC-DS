@@ -1,0 +1,128 @@
+CREATE TABLE SAILORS (SID NUMBER(5) PRIMARY KEY, SNAME VARCHAR2(7) NOT NULL, RATING NUMBER(2) NOT NULL, AGE NUMBER(2) NOT NULL, phno NUMBER(5));
+
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00001, 'Rakesh', 6, 24,65423);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00002, 'Suresh',7, 25, 98765);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00003, 'Suresh', 7,24,97487);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00004, 'Rajesh', 5,36, 87123);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00005, 'Ramesh',8,31, 91630);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00006, 'Kishore', 4,29,98040);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00007, 'Rahul', 9, 22,89614);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00008, 'Alex', 6, 20, 93301);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00009, 'Pritam',10,50,99304);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00010, 'Ravi', 5,47, 98305);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00011, 'Rajesh',5,45,24205);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00012, 'Sujit', 3, 21, 48646);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00013, 'Kapil',10,33, 98310);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00014, 'Udit', 6, 22, 70967);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00015, 'Ankush',5,37,77798);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00016, 'Neil',8, 27, 80171);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00017, 'Partho',3,22,83340);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00018, 'Rik', 5, 41, 90514);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00019, 'Subho',6,30,98743);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00020, 'Tinku',2,50,95686);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00021, 'Biswa',5,25,96798);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00022, 'Bharat',7,45,77865);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00023,'Raju',5,25,64988);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00024, 'Ram',8,37,25742);
+INSERT INTO Sailors (Sid,Sname,Rating,Age,phno) VALUES (00025, 'Ram',9,32,93108);
+
+CREATE TABLE BOATS (BID NUMBER(2) PRIMARY KEY, BNAME VARCHAR2(8) NOT NULL, COLOUR VARCHAR(6) NOT NULL, TYPE VARCHAR2(8) NOT NULL);
+
+INSERT INTO BOATS VALUES (3,'Beauty','Brown','Oval');
+INSERT INTO BOATS VALUES (1,'Arab','Red','Oval');
+INSERT INTO BOATS VALUES (2,'Caspian','Red','Oval');
+INSERT INTO BOATS VALUES (4,'Atlantic','Brown','Square');
+INSERT INTO BOATS VALUES (5,'Sand','Green','Oval');
+INSERT INTO BOATS VALUES (6,'Seahawk','Black','Elliptic');
+INSERT INTO BOATS VALUES (7,'Prawn','Yellow','Square');
+INSERT INTO BOATS VALUES (8,'Gangotri','Red','Circular');
+INSERT INTO BOATS VALUES (9,'Harbour','Brown','Elliptic');
+INSERT INTO BOATS VALUES (10,'Kailasa','Green','Oval');
+
+CREATE TABLE RESERVES (SID NUMBER(5) REFERENCES SAILORS(SID), BID NUMBER(2) REFERENCES BOATS(BID), DAY DATE, PRIMARY KEY (sid, bid, day));
+
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,1,'10-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,2,'10-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,10,'10-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(6,6,'12-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(1,4,'15-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(1,8,'15-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(3,7,'15-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(17,5,'17-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,5,'17-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,6,'18-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(9,9,'19-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,3,'19-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,4,'20-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(12,7,'21-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(20,10,'21-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,7,'25-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,8,'25-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,9,'25-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(6,4,'27-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(8,7,'29-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(23,1,'30-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(16,5,'30-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(1,1,'30-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(25,5,'30-JUN-13');
+INSERT INTO Reserves(Sid,Bid,Day)VALUES(3,5,'30-JUN-13');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DECLARE
+n NUMBER(2) := &n;
+roll NUMBER(2) := &roll;
+name VARCHAR2(30) := &name;
+cia NUMBER(5) := &cia;
+final NUMBER(5) := &final;
+total NUMBER(5);
+
+BEGIN
+
+
+END
+/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

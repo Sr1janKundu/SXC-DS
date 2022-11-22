@@ -1,0 +1,47 @@
+---
+title: "DS_Nov_10-Graphics_Using_ggplot-2"
+author: "Srijan Kundu"
+date: "2022-11-10"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+set.seed(1)
+library(dplyr)
+library(ggplot2)
+```
+
+The dataset which will be used here is the `economics` dataset.
+```{r}
+economics
+```
+### Scatterplot number of unemployed against time.
+```{r}
+qplot(date, unemploy, data = economics)
+```
+> But, for time-series data, a line plot should be used.
+
+```{r}
+qplot(date, unemploy, data = economics, geom = c("line"))
+#ggplot(data = economics, aes(x = date, y = unemploy)) + geom_line()
+```
+### Display both the points and the lines
+```{r}
+qplot(date, unemploy, data = economics, geom = c("point", "line"))
+#ggplot(data = economics, aes(x = date, y = unemploy)) + geom_line() + geom_point()
+```
+
+### Change the x-axis label to "DATE", give a proper y-axis title and a proper plot-title.
+```{r}
+qplot(date, unemploy, data = economics, geom = c("line"), xlab = "Date", ylab = "Unemployemnt", main = "Date ~ Unemployment time-series plot")
+```
+### Change the x axis intervals to 5 years.
+```{r}
+qplot(date, unemploy, data = economics, geom = c("line"), xlab = "Date", ylab = "Unemployemnt", main = "Date ~ Unemployment time-series plot")
+```
+
+### Obtain a line diagram showing number of unemployed as well 
+

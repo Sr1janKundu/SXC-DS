@@ -1,0 +1,157 @@
+---
+title: "Dplyr Package"
+author: "Srijan Kundu"
+date: "2022-11-07"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+> [`Dplyr`](https://dplyr.tidyverse.org/index.html) is a grammar of data manipulation, providing a consistent set of verbs that help users solve the most common data manipulation challenges in R, and according to its official documentation, is "a fast, consistent tool for working with data frame like objects, both in memory and out of memory."
+
+A list of functions under the `dplyr` package can be accessed from [here](https://dplyr.tidyverse.org/reference/), although the focus here is to talk about some of the more frequently used ones among those, viz.,
+
+| SI. No. | `dplyr` function | Description                                                                                        |
+|------------------|----------------------|--------------------------------|
+| 01      | `filter()`       | Subset rows using column values                                                                    |
+| 02      | `arrange()`      | Orders the rows of a data frame by the values of selected columns                                  |
+| 03      | `select()`       | Subset columns using their names and types                                                         |
+| 04      | `rename()`       | Rename columns                                                                                     |
+| 05      | `slice()`        | Subset rows using their positions                                                                  |
+| 06      | `mutate()`       | Adds new variables and preserves existing ones                                                     |
+| 07      | `transmute()`    | Adds new variables and drops existing ones                                                         |
+| 08      | `summarise()`    | Summarise each group to fewer rows                                                                 |
+|         |                  |                                                                                                    |
+| 09      | `group_by()`     | Takes an existing tbl and converts it into a grouped tbl where operations are performed "by group" |
+
+First, let's load the `dplyr` package.
+
+```{r load-package}
+library(dplyr)
+```
+
+We will load a dataset and demonstrate each of the functions mentioned above using that dataset. A good example is the "starwars dataset" which comes with the `dplyr` library itself. The dataset contains 87 rows and 14 variables.
+
+```{r load-data}
+starwars
+head(starwars)
+dim(starwars)
+```
+
+### The `filter()` function:
+
+`filter()` allows us select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is `TRUE`.
+
+```{r filter_function}
+# Filtering by one criterion
+filter(starwars, species == "Human")
+# Filtering by multiple criteria within a single logical expression
+filter(starwars, hair_color == "none" & eye_color == "black")
+# Filtering entries with missing values in hair_color column
+filter(starwars, is.na(hair_color))
+```
+
+### The `arrange()` function:
+
+`arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If more than one column name is provided, each additional column will be used to break ties in the values of preceding columns.
+
+```{r arrange_function}
+#Arrange entries by increasing mass
+arrange(starwars, mass)
+```
+
+### The `select()` function:
+
+Often we have to work with large datasets with many columns but only a few are actually of interest at the time. `select()` allows us rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions.
+
+```{r select_function}
+#Select variables by name:
+select(starwars, height)
+#Select multiple variables by separating them with commas:
+select(starwars, homeworld, height, mass)
+```
+
+### The `rename()` function:
+
+Variables can be renamed with `select()` by using named arguments:
+
+```{r rename_using_select}
+select(starwars, home_world = homeworld)
+```
+
+But because `select()` drops all the variables not explicitly mentioned, it's not that useful. Instead, `rename()` can be used.
+
+```{r rename_function}
+#Changes the names of individual variables using new_name = old_name syntax
+rename(starwars, movies = films)
+```
+
+### The `slice()` function:
+
+It chooses rows based on location.
+
+```{r silce_function}
+slice(starwars, 1:7)
+#Slice a random sample from the dataset
+slice_sample(starwars, n = 5)
+slice_sample(starwars, prop = 0.1)
+```
+
+### The `mutate()` function:
+
+Besides selecting sets of existing columns, it's often useful to add new columns that are functions of existing columns. This is the job of `mutate()`.
+
+```{r mutate_function}
+#Add a new column
+mutate(starwars, height_m = height / 100)
+```
+
+### The `transmute()` funciton:
+
+If you only want to keep the new variables, use `transmute()`.
+
+```{r transmute_function}
+#To keep the new variables
+transmute(starwars, 
+    height_m = height / 100,
+    BMI = mass / (height_m^2)
+  )
+```
+
+### The `summarise()` function:
+
+It collapses a data frame to a single row.
+
+```{r summarise_funciton}
+summarise(starwars, height = mean(height, na.rm = TRUE))
+```
+
+### The `group_by()` function:
+
+The dplyr API is functional in the sense that function calls don't have side-effects. One must always save their results. This doesn't lead to particularly elegant code, especially if they want to do many operations at once.
+
+```{r}
+a1 <- group_by(starwars, species, sex)
+a2 <- select(a1, height, mass)
+a3 <- summarise(a2,
+  height = mean(height, na.rm = TRUE),
+  mass = mean(mass, na.rm = TRUE)
+)
+a3
+```
+
+This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%\>%` operator from magrittr. x `%\>%` f(y) turns into f(x, y) so it can be used to rewrite multiple operations that one can read left-to-right, top-to-bottom (reading the pipe operator as "then"):
+
+```{r group_by_function}
+starwars %>%
+  group_by(species, sex) %>%
+  select(height, mass) %>%
+  summarise(
+    height = mean(height, na.rm = TRUE),
+    mass = mean(mass, na.rm = TRUE)
+  )
+```

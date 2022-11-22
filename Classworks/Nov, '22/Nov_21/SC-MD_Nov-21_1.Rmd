@@ -1,0 +1,184 @@
+---
+title: "SC-MD_Nov-21_1"
+author: "Srijan Kundu"
+date: "2022-11-21"
+output: pdf_document
+---
+
+```{r}
+set.seed(1)
+```
+
+
+## Question 1:
+Let $X$ be a random variable such that $X \sim Bin(10, 0.3)$.
+Then,
+
+### Question 1(a):
+Find:
+- $P(X = 5)$
+```{r}
+dbinom(5, 10, 0.3)
+```
+
+- $P(X \leq 1)$
+```{r}
+pbinom(1, 10, 0.3)
+```
+
+- $P(X > 4)$
+```{r}
+pbinom(4, 10, 0.3, lower.tail = FALSE)
+```
+
+- The median of $X$
+```{r}
+qbinom(0.5, 10, 0.3)
+```
+
+### Question 1(b)
+Draw a random sample of size 100 from the distribution of $X$ and obtain the proportion of observations which are $\leq 3$.
+
+```{r}
+data = rbinom(100, 10, 0.3)
+length(data[data <= 3])/100
+```
+## Question 2:
+A car hire company has two cars which it hires out a day. The number of
+demands for a car on each day has a Poisson distribution with mean 1.5. Find the proportion of days on which:
+
+### Question 2(a):
+Neither car is used: 
+```{r}
+dpois(0, 1.5)
+```
+### Question 2(b):
+One car remains idle:
+```{r}
+dpois(1, 1.5)
+```
+### Question 2(c):
+Some demands are refused:
+```{r}
+ppois(2, 1.5, lower.tail = FALSE)
+```
+
+## Question 3: 
+A batch of parts contains 100 parts from a local supplier of tubing and 200 parts from a supplier of the neighboring state. If four parts are selected randomly and without replacement
+
+### Question 3(a):
+What is the probability that they are all from the local supplier?
+```{r}
+dhyper(4, 100, 200, 4)
+```
+### Question 3(b):
+What is the probability that two or more parts in the sample are from the
+local supplier?
+```{r}
+phyper(1, 100, 200, 4, lower.tail = FALSE)
+```
+### Question 3(c):
+What is the probability that at least one part in the sample is from the local supplier?
+```{r}
+1 - phyper(0, 100, 200, 4)
+```
+## Question 4:
+Suppose a fair coin is tossed until the first head appears. Find the probability that:
+
+### Question 4(i):
+There will be exactly five tails before the first head appears.
+```{r}
+dgeom(5, 0.5)
+```
+### Question 4(ii):
+There will be at most 2 tails before the first head.
+```{r}
+pgeom(2, 0.5)
+```
+### Question 4(iii):
+There will be at least 5 tails before the first head appears.
+```{r}
+pgeom(4, 0.5, lower.tail = FALSE)
+```
+### Question 4(iv):
+The median number of tails before the first head.
+```{r}
+qgeom(0.5, 0.5)
+```
+
+## Question 5:
+When Stephane plays chess against his favorite computer program, he wins with probability 0.60. Assuming independence find the probability that Stephane’s fifth win happens when he plays his eighth game.
+```{r}
+dnbinom(3, 5, 0.6)
+```
+*Here, $x \sim NB(5, 0.6)$,where $x$ is the number of failures preceding $r^{th}$ success.*
+
+
+## Question 6:
+The height of students in a large college is found to have a normal distribution with mean 162.50 cm and standard deviation 6 cm. Find the probability that a student selected at random will have:
+
+### Question 6(i):
+Height greater than 168 cm:
+```{r}
+pnorm(168, 162.5, 6, lower.tail = FALSE)
+```
+### Question 6(ii):
+Height less than or equal to 150 cm:
+```{r}
+pnorm(150, 162.5, 6, lower.tail = TRUE)
+```
+### Question 6(iii):
+Height between 150 and 168 cm
+```{r}
+pnorm(168, 162.5, 6) - pnorm(150, 162.5, 6)
+```
+
+## Question 7:
+The marks obtained by candidates in Mathematics (full marks 100) in a certain examination are found to be normally distributed with a certain mean and standard deviation. If 10% of the candidates obtain 60% or more marks, 40% failed to pass (minimum marks for pass is 30), find the mean and standard deviation of the distribution of marks.
+
+```{r}
+qnorm(0.4, 0, 1)
+qnorm(0.1, 0, 1, lower.tail = FALSE)
+```
+Here, we need to solve for $\mu\;\&\;\sigma$ where 
+$$\frac{30 - \mu}{\sigma} = -0.25,\;\text{and}$$
+$$\frac{60 - \mu}{\sigma} = 1.28$$
+
+## Question 8:
+It is known that the lifetime t of electron tubes is distributed as exponential with mean m. Find the probability that an electron tube chosen at random survives for more than 400 hours when m=200.
+```{r}
+pexp(400, 1/200, lower.tail = FALSE)
+```
+For what value of m is this probability 0.5?
+```{r}
+qexp(0.5, 1/400)
+```
+
+
+## Question 9:
+A daily consumption of milk in a city, in excess of 20000 liters, is approximately distributed as a Gamma with shape parameter 0.0001 and scale parameter 2. The city has a daily stock of 30000 liters. What is the probability that the stock is insufficient on a particular day?
+```{r}
+
+```
+
+## Question 10:
+The percentage of impurities per batch in a certain chemical product is a random variable X following a beta(3,2) distribution. A batch with more than 40% impurities cannot be sold. What is the probability that a randomly selected batch cannot be sold because of excessive impurities?
+```{r}
+
+```
+
+## Question 11:
+Suppose the lifetime of a motor has a lognormal distribution with shape parameter 11 hours and scale parameter 1.3 hours. What is the probability that the lifetime exceeds 12,000 hours?
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+

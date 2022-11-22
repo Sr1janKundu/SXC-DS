@@ -1,0 +1,28 @@
+---
+title: "DS_DataViz_Nov_15_1"
+author: "Srijan Kundu"
+date: "2022-11-15"
+output: pdf_document
+---
+
+```{r library_call}
+library(tidyverse)
+```
+
+Let's start by looking at the `economics` dataset:
+```{r}
+head(economics)
+glimpse(economics)
+```
+
+### Diagrams
+```{r}
+ggplot(data = economics, mapping = aes(x = date, y = uempmed)) + geom_line() + geom_point()
+```
+
+```{r}
+ggplot(data = economics, mapping = aes(x = date, y = uempmed)) + geom_line(color = "red", alpha = I(0.5))
+```
+
+> Add a title, a subtitle, x-axis label and y-axis labels by adding other layer(s).
+

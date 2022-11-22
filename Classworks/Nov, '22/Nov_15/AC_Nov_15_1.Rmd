@@ -1,0 +1,47 @@
+---
+title: "AC_Nov_15_1"
+author: "Srijan Kundu"
+date: "2022-11-15"
+output: pdf_document
+---
+```{r}
+library(pracma)
+```
+
+
+### Question: 
+
+
+Fit a Poisson distribution to each of these social classes and then comment on the goodness of fit.
+---
+
+### Answer:
+```{r}
+a = c(0, 1, 2, 3, 4, 5)
+data = data.frame("age_0" = c(13, 98, 33, 25, 87, 42), "age_1" = c(31, 217, 69, 50, 184, 90), "age_2" = c(40, 179, 68, 43, 106, 30), "age_3" = c(31, 124, 36, 25, 38, 12), "age_4" = c(18, 61, 24, 7, 22, 4), "age_5+" = c(22, 54, 14, 9, 21, 4))
+data
+```
+### Class-Lumpen-proletariat (class_1):
+
+```{r}
+#class-Lumpen-proletariat(class_1)
+avg1 = dot(a, as.numeric(data[1, ]))/sum(as.numeric(data[1, ]))
+prob1 = dpois(a, avg1)
+exp_freq1 = dpois(a, avg1) * sum(as.numeric(data[1, ]))
+gfit1 = ((data[, 1] - exp_freq1)^2)/(exp_freq1)
+tab1 = data.frame(x = c("0", "1", "2", "3", "4", "5+"), "Probability" = prob1, "Obs_freq" = data[, 1], "Exp_freq" = exp_freq1, "gfit" = gfit1)
+format.data.frame(tab1, digits = 3)
+```
+
+### Woking class (class_2):
+```{r}
+#class-Lumpen-proletariat(class_1)
+avg2 = dot(a, as.numeric(data[2, ]))/sum(as.numeric(data[2, ]))
+prob2 = dpois(a, avg2)
+exp_freq2 = dpois(a, avg2) * sum(as.numeric(data[2, ]))
+gfit2 = ((data[, 2] - exp_freq2)^2)/(exp_freq2)
+tab2 = data.frame(x = c("0", "1", "2", "3", "4", "5+"), "Probability" = prob2, "Obs_freq" = data[, 2], "Exp_freq" = exp_freq2, "gfit" = gfit2)
+format.data.frame(tab2, digits = 3)
+```
+
+*complete this...*

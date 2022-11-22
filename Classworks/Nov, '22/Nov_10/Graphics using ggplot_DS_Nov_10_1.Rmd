@@ -1,0 +1,85 @@
+---
+title: "DS_Nov_10-Graphics_Using_ggplot-1"
+author: "Srijan Kundu"
+date: "2022-11-10"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+set.seed(1)
+library(dplyr)
+library(ggplot2)
+```
+
+### The dataset that will be used to demonstrate are `diamonds` dataset.
+
+```{r}
+diamonds
+```
+### The scales of measurements are given as `dbl` or `ord` as ordinal etc.
+
+```{r}
+head(diamonds)
+glimpse(diamonds)
+```
+### Obtain a random sample of 1000 rows from the `diamond` dateset.
+```{r}
+sample = slice_sample(diamonds,  n = 1000)
+sample
+```
+### Obtain a scatterplot of price against carat from this sample. Use the `qplot` function.
+```{r}
+qplot(carat, price, data = sample)
+#ggplot(sample, aes(x = carat, y = price)) + geom_point()
+```
+### Faceting is subseting the data and using different plots for each characteistic. But, here we want to see which point corresponds to which color in the same scatterplot demonstrated above.
+```{r}
+qplot(carat, price, data = sample, color = color)
+```
+#### Same thing as above using `clarity`:
+```{r}
+qplot(carat, price, data = sample, color = clarity)
+```
+### Show different "cuts" is different shapes
+```{r}
+qplot(carat, price, data = sample, color = color, shape = cut)
+```
+### Make points in the bottom left corner brighter than those in the top right corner, or control the transperancy.
+```{r}
+qplot(carat, price, data = sample, color = color, alpha = I(0))
+qplot(carat, price, data = sample, color = color, alpha = I(0.25))
+qplot(carat, price, data = sample, color = color, alpha = I(0.5))
+qplot(carat, price, data = sample, color = color, alpha = I(0.75))
+qplot(carat, price, data = sample, color = color, alpha = I(1))
+```
+
+### Try using bar diagram for frequency distribution for different colors.
+```{r}
+qplot(color, data = diamonds, fill = color)
+#ggplot(diamonds, aes(x = color, fill = color)) + geom_bar()
+```
+### Change the vertical bars to horizontal bars.
+```{r}
+plot = qplot(color, data = diamonds, fill = color)
+plot + coord_flip()     #this is called layering
+```
+### For each type of cut, obtain freq dist of number of different colors.
+```{r}
+qplot(color, data = sample, fill = color, geom = "bar") + facet_grid(~cut)
+```
+### Use subdevided bars
+```{r}
+#qplot(color, data = diamonds, fill = color, geom = "bar", )
+ggplot(diamonds, aes(fill = color, x = cut)) + geom_bar(position="fill")
+```
+
+### Obtain a boxplot of the price of diamonds for each cut of diamonds
+```{r}
+#for the entire dataset
+qplot(price, data = diamonds, fill = color, geom = "boxplot") + facet_grid(~cut)
+qplot(price, data = sample, color = cut, geom = "boxplot") + facet_grid(~cut)
+```
+

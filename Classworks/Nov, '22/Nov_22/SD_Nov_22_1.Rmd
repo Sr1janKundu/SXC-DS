@@ -1,0 +1,50 @@
+---
+title: "SD_Nov_22_1"
+author: "Srijan Kundu"
+date: "2022-11-22"
+output: pdf_document
+---
+
+## Simulate the behavior of non-central t distribution
+
+------------------------------------------------------------------------
+
+### Non-central t distribution:
+
+$$t = \frac{X}{\sqrt{\frac{Y}{n}}}$$
+
+where $X \sim N(\mu, 1)$ independently of $Y \sim \chi^2_{(n)}$.
+
+```{r}
+mu = c(0, 5, 10, 50, 100)
+x = c()
+ch = rchisq(1, 10)
+t = c()
+for (i in 1:5)
+{
+  for (j in 1:1000)
+  {
+    x[j] = rnorm(1, mu[i], 1)
+    t[j] = x[j]/((ch/4)**5)
+  }
+  hist(t, freq = F)
+}
+```
+For $\mu = 0$:
+```{r}
+par(mfrow = c(2, 5))
+n = 1:100
+mu = 0
+t = c()
+
+for (i in 1:10)
+{
+  for (j in 1:1000)
+  {
+    nor = rnorm(1, mu, 1)
+    t[j] = nor/(rchisq(1, n[i])/n[i])**0.5
+  }
+  hist(t, freq = F)
+}
+```
+

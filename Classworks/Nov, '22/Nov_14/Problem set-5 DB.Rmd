@@ -1,0 +1,152 @@
+---
+title: "Linear Algebra Problem Set 5"
+author: "Soumyadeep Poddar"
+date: "2022-11-09"
+output: html_document
+---
+
+install.packages("matlib")
+```{r}
+library(matlib)
+library(pracma)
+```
+
+### 1.	Plot the following system of linear equations and comment on solvability:
+
+#### i) The equations are as follows:
+```{r}
+A1=matrix(c(5,-4,-1,1),2,2,byrow=T)
+b1=c(-10,2)
+showEqn(A1,b1)
+
+```
+
+After plotting:
+
+```{r}
+plotEqn(A1,b1)
+```
+
+We see that the lines intersect and the two equations are solvable.
+
+```{r}
+Solve(A1,b1,verbose=T)
+```
+
+So, the value of  $x_1$ is -2 and $x_2$ is 0. 
+
+#### ii) The equations are as follows:
+
+```{r}
+A2=matrix(c(1,-2,3,-6),2,2,byrow=T)
+b2=c(1,3)
+showEqn(A2,b2)
+```
+After plotting:
+
+```{r}
+plotEqn(A2,b2)
+```
+
+The two lines doesn't intersect so this system is unsolvable.
+
+
+#### iii) The equations are as follows:
+
+```{r}
+A3=matrix(c(1,-2,3,-6),2,2,byrow=T)
+b3=c(1,11)
+showEqn(A3,b3)
+```
+After plotting:
+
+```{r}
+plotEqn(A3,b3)
+```
+
+The lines are parallel and there is no intersection.
+
+The system is unsolvable.
+
+
+#### iv) The equations are:
+ 
+```{r}
+A4=matrix(c(1,-1,2,2,3,1),byrow=T,3,2)
+b4=c(2,1,6)
+showEqn(A4,b4)
+```
+
+After plotting:
+
+```{r}
+plotEqn(A4,b4)
+```
+
+The three equations do not intersect at the same point, so the system is not solvable.
+
+```{r}
+Solve(A4,b4,verbose=TRUE)
+```
+We see that the system is inconsistent.
+
+#### v) The equations are:
+
+```{r}
+A5=matrix(c(13,-4,2,-4,11,-2,2,-2,8),3,3,byrow=T)
+b5=c(1,2,6)
+showEqn(A5,b5)
+```
+
+After plotting:
+```{r}
+plotEqn3d(A5,b5)
+```
+
+The three equations intersect at a common point. Hence, it is solvable.
+
+```{r}
+Solve(A5,b5,verbose=T)
+```
+
+The values are $x_1$=0.05882353 , $x_2$=0.35294118 and $x_3$=0.82352941.
+
+#### 4.	Solve the following system of equation using Gaussian elimination, LU factorization and QR factorization:
+
+QR factorization.
+
+```{r}
+A=matrix(c(1,3,-2,3,7,1,-2,1,7),3,3,byrow=TRUE)
+b=c(-4,4,7)
+qr.solve(A,b,tol=1e-7)
+solve.qr
+```
+
+#### 5.	Set the seed at 4865299. Create a 4x3 matrix M by generating values from uniform (0,1). Solve the system of equations Mx = b, where b = (1,2,3,4) using Gaussian elimination, LU decomposition and QR factorization.
+
+
+```{r}
+set.seed(4865299)
+M = matrix(runif(12),nrow=4)
+b = c(1,2,3,4)
+Solve(M, b)
+#Solve by Gaussian Elimination
+gaussianElimination(
+  M,
+  b,
+  tol = sqrt(.Machine$double.eps),
+  verbose = FALSE
+)
+#Solve by LU decomposition
+
+#Solve by QR-factorization
+
+QR = qr(M, tol=1e-07)
+Q = qr.Q(QR)
+R = qr.R(QR)
+
+#(Q)%*%R
+
+qr.solve(M, b, tol=1e-7)
+```
+
