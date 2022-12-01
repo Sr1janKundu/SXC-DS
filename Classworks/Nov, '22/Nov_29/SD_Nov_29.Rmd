@@ -1,0 +1,42 @@
+---
+title: "SD_Nov_29"
+author: "Srijan Kundu"
+date: "2022-11-29"
+output: pdf_document
+---
+
+------------------------------------------------------------------------
+
+```{r}
+#set.seed(423)
+```
+
+# Draw a random sample of size $15$ from $N(0, 1)$.
+
+```{r}
+samp1 <- rnorm(15, 2, 1)
+```
+
+Given data set, problem: the following is a set of observations from a $N(\mu, 1)$. Test on the basis of the observation whether $\mu = 2\;or\;\mu > 2$.
+
+```{r}
+sampmean1 <- mean(samp1)
+sampmean1
+```
+
+Let us take $T = \bar(X)$. We reject $H_0$ in favour of $H_1$, if $\bar(X) > c$, where $c$ is such that $Pr(\bar(X) > c | H_0) = \alpha, \;(0 < \alpha<1)$.
+
+We know, $\bar(X) \sim N(\mu, \frac{1}{n})$. Under $H_0, \bar(X) \sim N(2, \frac 1 n)$.
+
+Fix $\alpha = 0.05$, then $Pr(\bar(X) > c | H_0) = 0.05, \;(0 < \alpha<1)$ the value of $c$ will be:
+
+```{r}
+qnorm(0.05, 2, 1/sqrt(15), lower.tail = FALSE)
+```
+
+So, we accept $H_0$.
+
+```{r}
+
+```
+

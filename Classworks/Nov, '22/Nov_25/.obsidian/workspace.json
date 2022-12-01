@@ -1,0 +1,146 @@
+{
+  "main": {
+    "id": "baffe76a41f4ba34",
+    "type": "split",
+    "children": [
+      {
+        "id": "843ddb7bdbae9c81",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4d255a79ee8d1883",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "AN_Nov_25.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d6a109f8911123be",
+    "type": "split",
+    "children": [
+      {
+        "id": "2e5c95c7b4076610",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ee551a11a19a8176",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "31a9dd5dd6221dfb",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "6b002cfc0197edd3",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "e489a86c51f6b2b5",
+    "type": "split",
+    "children": [
+      {
+        "id": "230b31cc5ba733db",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c4bf3e865d1f05b0",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "AN_Nov_25.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "3a0ef7c39f315452",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "AN_Nov_25.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "6852b018b991857e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "8c39c5f21d380945",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "AN_Nov_25.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "4d255a79ee8d1883",
+  "lastOpenFiles": [
+    "SP_Nov_25.md",
+    "AN_Nov_25.md",
+    "SP_Nov_18.md"
+  ]
+}
