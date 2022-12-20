@@ -1,0 +1,136 @@
+{
+  "main": {
+    "id": "f632f1fcf505f466",
+    "type": "split",
+    "children": [
+      {
+        "id": "6962cde61e6a913a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f2f9f5a11c5b8d91",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "57c7181b4313df21",
+    "type": "split",
+    "children": [
+      {
+        "id": "46cc0fb7c9f2e1f2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bffa838b12462adc",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "8f405e69b1d68002",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "c3e19a4a0f0282cf",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "2c99f885ffeba32b",
+    "type": "split",
+    "children": [
+      {
+        "id": "24422e0280bc2f5c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "9d1cb859ae501704",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "21a569fa52402b4d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "9d79e1db85436278",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "e0604f4cd04abf8b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "f2f9f5a11c5b8d91",
+  "lastOpenFiles": [
+    "SP_Exam_2_DS-423 (MDTS 4114).md"
+  ]
+}

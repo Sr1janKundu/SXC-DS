@@ -1,0 +1,28 @@
+---
+title: "SD_Dec_06"
+author: "Srijan Kundu"
+date: "2022-12-06"
+output: pdf_document
+---
+
+[[SD_question 1.PNG]]
+
+```{r}
+set.seed(23)
+result <- vector(mode = "list", length = 50)
+for (i in 1:50)
+{
+  samp1 <- rnorm(50, 2, 1)
+  samp1mean <- mean(samp1)
+  samp1mean
+  crit <- qnorm(0.05, 2, 1/sqrt(50), lower.tail = FALSE)
+  if (crit > samp1mean){
+    result[i] <- "Accept"
+  }else{
+    result[i] <- "Reject"
+  }
+}
+#length(which(result == "Accept"))
+sum(result == "Accept")
+sum(result == "Reject")
+```

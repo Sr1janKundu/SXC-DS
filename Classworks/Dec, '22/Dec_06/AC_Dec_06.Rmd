@@ -1,0 +1,93 @@
+---
+title: "AC_Dec_06"
+author: "Srijan Kundu"
+date: "2022-12-06"
+output: pdf_document
+---
+
+Fit an Exponential distribution to the following data:
+
+| Waiting time to failure | No. of Bulbs |
+|-------------------------|--------------|
+| 0-10                    | 56           |
+| 10-20                   | 19           |
+| 20-30                   | 14           |
+| 30-40                   | 8            |
+| 40-50                   | 4            |
+| 50 and more             | 1            |
+
+$E(x) = \lambda,\;\;\hat{\lambda} = \frac {1} {\bar{x}}.$
+
+------------------------------------------------------------------------
+
+```{r}
+library(pracma)
+library(matlib)
+library(ggplot2)
+library(ggpubr)
+```
+
+
+
+```{r}
+class_int <- seq(0, 60, 10)
+class <- c("0-10", "10-20", "20-30", "30-40", "40-50", "> 50")
+x <- seq(5, 55, 10)
+f <- c(56, 19, 14, 8, 4, 1)
+```
+
+```{r}
+x_bar <- dot(f, x)/sum(f)
+x_bar
+l_hat <- 1/x_bar
+l_hat
+```
+
+```{r}
+st_var <- sum(((x - x_bar)**2)*f)/(sum(f) - 1)
+st_var
+st_dev <- sqrt(st_var)
+```
+
+Here, $E(x) = 14.02$.
+We will fit an exponential distribution with parameter $\lambda = \frac{1}{14.02}$.
+
+```{r}
+p <- c(pexp(10, l_hat) - pexp(0, l_hat),
+       pexp(20, l_hat) - pexp(10, l_hat),
+       pexp(30, l_hat) - pexp(20, l_hat),
+       pexp(40, l_hat) - pexp(30, l_hat),
+       pexp(50, l_hat) - pexp(40, l_hat),
+       pexp(Inf, l_hat) - pexp(50, l_hat))
+
+p
+```
+Expected frequency:
+```{r}
+exp_freq <- p*sum(f)
+exp_freq
+```
+
+Goodness of fit:
+```{r}
+df <- data.frame(class, f, exp_freq, p)
+colnames(df) <- c("Class_Intervals", "Observed_Frequency", "Expected_Frequency", "Probability")
+df
+```
+
+```{r}
+#Chi-square test statistic
+#df = (k-1-r) = (6-1-1) = 4; k = no. of obs, r = no. of parameters
+chi <- (f - exp_freq)**2/exp_freq
+sum(chi)
+```
+```{r}
+qchisq(0.95, 4)
+```
+Here, $4.28 < 9.48$, so we accept $H_0$ that the fit with $Exp(0.7132)$ is good.
+
+To compare the expected and observed frequencies for each class intervals, we use the following bar diagrams and the line diagrams:
+```{r}
+gg_obj <- ggplot(NULL, aes())
+```
+
